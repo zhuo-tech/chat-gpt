@@ -1,5 +1,5 @@
-import type { Router } from 'vue-router'
 import { useTitle } from '@vueuse/core'
+import type { Router } from 'vue-router'
 import { createPermissionGuard } from './permission'
 
 /**
@@ -8,6 +8,7 @@ import { createPermissionGuard } from './permission'
  */
 export function createRouterGuard(router: Router) {
     router.beforeEach(async (to, from, next) => {
+        console.debug(from.fullPath, ' -> ', to.fullPath)
         // 开始 loadingBar
         window.$loadingBar?.start()
         // 页面跳转权限处理

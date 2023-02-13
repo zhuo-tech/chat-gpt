@@ -1,8 +1,7 @@
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { routeName } from '@/router'
 import { useAuthStore } from '@/store'
 import { exeStrategyActions, localStg } from '@/utils'
-import { createDynamicRouteGuard } from './dynamic'
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 /** 处理路由页面的权限 */
 export async function createPermissionGuard(
@@ -10,10 +9,6 @@ export async function createPermissionGuard(
     from: RouteLocationNormalized,
     next: NavigationGuardNext,
 ) {
-    // 动态路由
-    const permission = await createDynamicRouteGuard(to, from, next)
-    if (!permission) return
-
     // 外链路由, 从新标签打开，返回上一个路由
     if (to.meta.href) {
         window.open(to.meta.href)
