@@ -1,4 +1,3 @@
-import { VITE_ROUTE_HOME_PATH } from '@/config'
 import { getLoginModuleRegExp } from '@/utils'
 import { RouteRecordRaw } from 'vue-router'
 
@@ -7,7 +6,7 @@ export default <Array<RouteRecordRaw>>[
     {
         name: 'root',
         path: '/',
-        redirect: VITE_ROUTE_HOME_PATH,
+        component: () => import('@/views/home/index.vue'),
         meta: {
             title: 'Root',
         },

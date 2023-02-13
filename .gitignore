@@ -37,3 +37,4 @@ stats.html
 /cypress/videos/
 /cypress/screenshots/
 /src/typings/components.d.ts
+/src/views/index.ts

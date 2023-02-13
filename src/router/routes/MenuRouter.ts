@@ -1,7 +1,7 @@
 // noinspection SpellCheckingInspection
 
-import { RouteRecordRaw } from 'vue-router'
 import { BasicLayout } from '@/layouts'
+import { RouteRecordRaw } from 'vue-router'
 
 export default <Array<RouteRecordRaw>>[
     {
@@ -39,15 +39,24 @@ export default <Array<RouteRecordRaw>>[
     {
         name: 'about',
         path: '/about',
-        component: () => import('@/views/about/index.vue'),
+        component: BasicLayout,
         meta: {
             title: '关于',
-            requiresAuth: true,
-            singleLayout: 'basic',
-            permissions: [ 'super', 'admin', 'user' ],
             icon: 'fluent:book-information-24-regular',
             order: 10,
         },
+        children: [
+            {
+                name: 'about_page',
+                path: '/about/page',
+                component: () => import('@/views/about/index.vue'),
+                meta: {
+                    title: '关于',
+                    icon: 'fluent:book-information-24-regular',
+                    order: 10,
+                },
+            },
+        ],
     },
     {
         name: 'auth-demo',
@@ -70,8 +79,6 @@ export default <Array<RouteRecordRaw>>[
                 component: () => import('@/views/auth-demo/super/index.vue'),
                 meta: {
                     title: '超级管理员可见',
-                    requiresAuth: true,
-                    permissions: [ 'super' ],
                     icon: 'ic:round-supervisor-account',
                 },
             },
