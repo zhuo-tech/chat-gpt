@@ -35,6 +35,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouterPush } from '@/composables'
 import { EnumLoginModule } from '@/enum'
 import { useAuthStore } from '@/store'
 import { formRules } from '@/utils'
@@ -43,6 +44,7 @@ import { reactive, ref } from 'vue'
 
 const auth = useAuthStore()
 const { login } = useAuthStore()
+const { toLoginModule } = useRouterPush()
 
 const formRef = ref<HTMLElement & FormInst>()
 const model = reactive({
@@ -52,11 +54,6 @@ const model = reactive({
 
 const rules: FormRules = {
     password: formRules.pwd,
-}
-
-const toLoginModule = (key: string) => {
-    // TODO: 验证码, 注册, 忘记密码
-    console.debug(key)
 }
 
 async function handleSubmit() {

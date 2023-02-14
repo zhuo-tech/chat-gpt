@@ -1,6 +1,6 @@
-import { useRouter } from 'vue-router'
+import { routeName, router as globalRouter } from '@/router'
 import type { RouteLocationRaw } from 'vue-router'
-import { router as globalRouter, routeName } from '@/router'
+import { useRouter } from 'vue-router'
 
 /**
  * 路由跳转
@@ -59,7 +59,7 @@ export function useRouterPush(inSetup = true) {
      */
     function toLoginModule(module: EnumType.LoginModuleKey) {
         const { query } = route.value
-        routerPush({ name: routeName('login'), params: { module }, query })
+        routerPush({ name: routeName('login'), query: { ...query, module: module } })
     }
 
     /**

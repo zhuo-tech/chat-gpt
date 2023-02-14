@@ -16,7 +16,7 @@ export default <Array<RouteRecordRaw>>[
         path: '/login',
         component: () => import('@/views/_builtin/login/index.vue'),
         props: route => {
-            const moduleType = (route.params.module as EnumType.LoginModuleKey) || 'pwd-login'
+            const moduleType = (route.query.module as EnumType.LoginModuleKey) || 'pwd-login'
             return {
                 module: moduleType,
             }
