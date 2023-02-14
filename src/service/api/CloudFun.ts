@@ -4,13 +4,14 @@ import type { AxiosRequestConfig, Method } from 'axios'
 /**
  * 转发 OpenAI 请求
  */
-export function openAi(request: HttpRequest) {
-    return Post<any, HttpRequest, any>('/open-ai', request)
+export function openAIProxy<R, RW = R>(request: HttpRequest) {
+    return Post<R, HttpRequest, RW>('/open-ai', request)
 }
 
 interface HttpRequest {
     url: string
     method: Method
-    query: Record<string, string>
-    header: AxiosRequestConfig['headers']
+    query?: Record<string, string>
+    header?: AxiosRequestConfig['headers']
+    body?: any
 }
