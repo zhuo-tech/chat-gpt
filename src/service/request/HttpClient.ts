@@ -14,18 +14,18 @@ const axios = new Axios({
     timeoutErrorMessage: '请求等待10秒仍未有响应, 请求超时',
     withCredentials: false,
     maxRedirects: 3,
-    transformResponse: [
-        (data) => {
-            if (!data) {
-                return data
-            }
-            return JSON.parse(data)
-        },
-    ],
     transformRequest: [
         (data, headers) => {
-            if (headers?.['Content-Type'] === 'application/json') {
+            if (headers?.['Content-Type'] === 'application/json' && data) {
                 return JSON.stringify(data)
+            }
+            return data
+        },
+    ],
+    transformResponse: [
+        (data, headers) => {
+            if (headers?.['Content-Type'] === 'application/json' && data) {
+                return JSON.parse(data)
             }
             return data
         },
@@ -110,7 +110,13 @@ export function Put<
     D = Record<string, any>,
     TR = HttpResponse<R>
 >(url: string, data?: D, config?: HttpRequest<D>): Promise<TR> {
-    return axios.put<R, TR, D>(url, data, config)
+    return axios.put<R, TR, D>(url, data, {
+        ...config,
+        headers: {
+            ...config?.headers,
+            'Content-Type': 'application/json',
+        },
+    })
 }
 
 /**
