@@ -1,11 +1,10 @@
-import { unref, nextTick } from 'vue'
-import { defineStore } from 'pinia'
-import { router } from '@/router'
-import { fetchLogin, fetchUserInfo } from '@/service'
 import { useRouterPush } from '@/composables'
+import { fetchLogin, fetchUserInfo } from '@/service'
 import { localStg } from '@/utils'
+import { defineStore } from 'pinia'
+import { nextTick } from 'vue'
 import { useTabStore } from '../tab'
-import { getToken, getUserInfo, clearAuthStorage } from './helpers'
+import { clearAuthStorage, getToken, getUserInfo } from './helpers'
 
 interface AuthState {
     /** 用户信息 */
@@ -33,18 +32,13 @@ export const useAuthStore = defineStore('auth-store', {
         resetAuthStore() {
             const { toLogin } = useRouterPush(false)
             const { resetTabStore } = useTabStore()
-            const route = unref(router.currentRoute)
 
             clearAuthStorage()
             this.$reset()
 
-            if (route.meta.requiresAuth) {
-                toLogin()
-            }
-
-            nextTick(() => {
-                resetTabStore()
-            })
+            toLogin()
+            // noinspection JSIgnoredPromiseFromCall
+            nextTick(resetTabStore)
         },
         /**
          * 处理登录后成功或失败的逻辑

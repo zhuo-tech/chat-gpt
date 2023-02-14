@@ -16,7 +16,7 @@ const axios = new Axios({
     maxRedirects: 3,
     transformRequest: [
         (data, headers) => {
-            if (headers?.['Content-Type'] === 'application/json' && data) {
+            if (String(headers.getContentType()).startsWith('application/json') && data) {
                 return JSON.stringify(data)
             }
             return data
@@ -24,7 +24,7 @@ const axios = new Axios({
     ],
     transformResponse: [
         (data, headers) => {
-            if (headers?.['Content-Type'] === 'application/json' && data) {
+            if (String(headers.getContentType()).startsWith('application/json') && data) {
                 return JSON.parse(data)
             }
             return data
