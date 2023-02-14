@@ -1,6 +1,6 @@
 <template>
-    <n-dropdown :options="options" @select="handleDropdown">
-        <hover-container :inverted="theme.header.inverted" class="px-12px">
+    <n-dropdown :options="options" @select="handleDropdown" class="n-dropdown"  placement="top-end">
+        <hover-container :inverted="theme.header.inverted" class="hover-con" style="px-12px">
             <n-avatar
                 :size="32"
                 :src="auth.userInfo.avatar"
