@@ -31,12 +31,7 @@ export async function createPermissionGuard(
             },
         ],
         // 不需要登录权限的页面直接通行
-        [
-            !needLogin,
-            () => {
-                next()
-            },
-        ],
+        [ !needLogin, () => next() ],
         // 未登录状态进入需要登录权限的页面
         [
             !isLogin && needLogin,
@@ -46,14 +41,9 @@ export async function createPermissionGuard(
             },
         ],
         // 登录状态进入需要登录权限的页面，有权限直接通行
+        [ isLogin && needLogin && hasPermission, () => next() ],
+        // 登录状态进入需要登录权限的页面，无权限，重定向到无权限页面
         [
-            isLogin && needLogin && hasPermission,
-            () => {
-                next()
-            },
-        ],
-        [
-            // 登录状态进入需要登录权限的页面，无权限，重定向到无权限页面
             isLogin && needLogin && !hasPermission,
             () => {
                 next({ name: routeName('403') })
