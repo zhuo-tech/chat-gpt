@@ -23,3 +23,10 @@ export function fetchLogin(username: string, password: string) {
 export function fetchUserInfo() {
     return Get<ApiAuth.UserInfo>('/getUserInfo')
 }
+
+/**
+ * 用户注册
+ */
+export function userRegister(phone: string, password: string) {
+    return Post('/userRegister', { phone, password })
+}

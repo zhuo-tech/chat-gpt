@@ -1,43 +1,36 @@
 <template>
-    <n-form ref="formRef" :model="model" :rules="rules" :show-label="false" size="large">
-        <n-form-item path="phone">
-            <n-input v-model:value="model.phone" placeholder="手机号码" />
-        </n-form-item>
-        <n-form-item path="code">
-            <div class="flex-y-center w-full">
-                <n-input v-model:value="model.code" placeholder="验证码" />
-                <div class="w-18px"></div>
-                <n-button :disabled="isCounting" :loading="smsLoading" size="large" @click="handleSmsCode">
-                    {{ label }}
-                </n-button>
-            </div>
-        </n-form-item>
-        <n-form-item path="pwd">
-            <n-input v-model:value="model.pwd" placeholder="密码" show-password-on="click" type="password" />
-        </n-form-item>
-        <n-form-item path="confirmPwd">
-            <n-input v-model:value="model.confirmPwd" placeholder="确认密码" show-password-on="click" type="password" />
-        </n-form-item>
-        <n-space :size="18" :vertical="true">
-            <login-agreement v-model:value="agreement" />
-            <n-button :block="true" :round="true" size="large" type="primary" @click="handleSubmit">确定</n-button>
-            <n-button :block="true" :round="true" size="large" @click="toLoginModule('pwd-login')">返回</n-button>
-        </n-space>
-    </n-form>
+    <n-spin :show="show">
+        <n-form ref="formRef" :model="model" :rules="rules" :show-label="false" size="large">
+            <n-form-item path="phone">
+                <n-input v-model:value="model.phone" placeholder="手机号码" />
+            </n-form-item>
+            <n-form-item path="pwd">
+                <n-input v-model:value="model.pwd" placeholder="密码" show-password-on="click" type="password" />
+            </n-form-item>
+            <n-form-item path="confirmPwd">
+                <n-input v-model:value="model.confirmPwd" placeholder="确认密码" show-password-on="click" type="password" />
+            </n-form-item>
+            <n-space :size="18" :vertical="true">
+                <!--<login-agreement v-model:value="agreement" />-->
+                <n-button :block="true" :round="true" size="large" type="primary" @click="handleSubmit">确定</n-button>
+                <n-button :block="true" :round="true" size="large" @click="toLoginModule('pwd-login')">返回</n-button>
+            </n-space>
+        </n-form>
+    </n-spin>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue'
-import type { FormInst, FormRules } from 'naive-ui'
 import { useRouterPush } from '@/composables'
-import { useSmsCode } from '@/hooks'
+import { userRegister } from '@/service'
+import { StandardErrorProcessor } from '@/service/request'
 import { formRules, getConfirmPwdRule } from '@/utils'
+import type { FormInst, FormRules } from 'naive-ui'
+import { reactive, ref, toRefs } from 'vue'
 
+defineOptions({ name: 'Register' })
 const { toLoginModule } = useRouterPush()
-const { label, isCounting, loading: smsLoading, start } = useSmsCode()
-
 const formRef = ref<HTMLElement & FormInst>()
-
+const show = ref(false)
 const model = reactive({
     phone: '',
     code: '',
@@ -52,15 +45,22 @@ const rules: FormRules = {
     confirmPwd: getConfirmPwdRule(toRefs(model).pwd),
 }
 
-const agreement = ref(false)
-
-function handleSmsCode() {
-    start()
-}
-
 async function handleSubmit() {
     await formRef.value?.validate()
-    window.$message?.success('验证成功!')
+    const { phone, pwd } = model
+
+    show.value = true
+    userRegister(phone, pwd)
+        .then(({ code, msg }) => {
+            // 注册成功
+            if (code === 0) {
+                toLoginModule('pwd-login')
+            } else {
+                window.$message?.warning(msg)
+            }
+        })
+        .catch(StandardErrorProcessor)
+        .finally(() => show.value = false)
 }
 </script>
 
