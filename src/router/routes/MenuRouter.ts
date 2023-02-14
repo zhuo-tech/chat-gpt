@@ -1,6 +1,7 @@
 // noinspection SpellCheckingInspection
 
 import { BasicLayout } from '@/layouts'
+import ApiDebugRouter from '@/router/routes/ApiDebugRouter'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <Array<RouteRecordRaw>>[
@@ -14,7 +15,7 @@ export default <Array<RouteRecordRaw>>[
                 path: '/dashboard/analysis',
                 component: () => import('@/views/dashboard/analysis/index.vue'),
                 meta: {
-                    title: '分析页',
+                    title: '首页',
                     requiresAuth: true,
                     icon: 'icon-park-outline:analysis',
                 },
@@ -24,7 +25,7 @@ export default <Array<RouteRecordRaw>>[
                 path: '/dashboard/workbench',
                 component: () => import('@/views/dashboard/workbench/index.vue'),
                 meta: {
-                    title: '工作台',
+                    title: '调用记录',
                     requiresAuth: true,
                     icon: 'icon-park-outline:workbench',
                 },
@@ -36,6 +37,7 @@ export default <Array<RouteRecordRaw>>[
             order: 1,
         },
     },
+    ApiDebugRouter,
     {
         name: 'about',
         path: '/about',
