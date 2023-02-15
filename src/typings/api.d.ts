@@ -51,3 +51,25 @@ declare namespace ApiUserManagement {
         userStatus: '1' | '2' | '3' | '4' | null;
     }
 }
+
+declare namespace Laf {
+    interface Page<T> {
+        total: number
+        list: Array<T>
+    }
+
+    interface PageQuery {
+        page: number
+        size: number
+    }
+
+    export interface BizLog {
+        _id: string
+        time: number
+        time2: string
+        request: any
+        status: number
+        statusText: string
+        response: any
+    }
+}

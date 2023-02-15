@@ -33,7 +33,6 @@ import { reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui'
 import type { DataTableColumns, PaginationProps } from 'naive-ui'
-import { fetchUserList } from '@/service'
 import { useBoolean, useLoading } from '@/hooks'
 import { genderLabels, userStatusLabels } from '@/constants'
 import TableActionModal from './components/TableActionModal.vue'
@@ -51,14 +50,6 @@ function setTableData(data: UserManagement.User[]) {
 
 async function getTableData() {
     startLoading()
-    // @ts-ignore
-    const { data } = await fetchUserList()
-    if (data) {
-        setTimeout(() => {
-            setTableData(data)
-            endLoading()
-        }, 1000)
-    }
 }
 
 const columns: Ref<DataTableColumns<UserManagement.User>> = ref([

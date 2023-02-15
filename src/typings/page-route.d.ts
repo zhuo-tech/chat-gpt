@@ -38,21 +38,21 @@ declare namespace PageRoute {
       | 'plugin_charts_antv'
       | 'plugin_charts_echarts'
       | 'plugin_copy'
-    | 'plugin_editor'
-    | 'plugin_editor_markdown'
-    | 'plugin_editor_quill'
-    | 'plugin_icon'
-    | 'plugin_map'
-    | 'plugin_print'
-    | 'plugin_swiper'
-    | 'plugin_video';
+      | 'plugin_editor'
+      | 'plugin_editor_markdown'
+      | 'plugin_editor_quill'
+      | 'plugin_icon'
+      | 'plugin_map'
+      | 'plugin_print'
+      | 'plugin_swiper'
+      | 'plugin_video';
 
   /**
    * last degree route key, which has the page file
    * @translate 最后一级路由(该级路有对应的页面文件)
    */
   type LastDegreeRouteKey = Extract<
-    RouteKey,
+      RouteKey,
       | '403'
       | '404'
       | '500'
@@ -74,9 +74,9 @@ declare namespace PageRoute {
       | 'plugin_editor_markdown'
       | 'plugin_editor_quill'
       | 'plugin_icon'
-    | 'plugin_map'
-    | 'plugin_print'
-    | 'plugin_swiper'
-    | 'plugin_video'
+      | 'plugin_map'
+      | 'plugin_print'
+      | 'plugin_swiper'
+      | 'plugin_video'
   >;
 }
