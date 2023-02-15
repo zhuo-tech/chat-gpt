@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: '完成',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '创建 completions',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 完成.创建完成 }),
         },

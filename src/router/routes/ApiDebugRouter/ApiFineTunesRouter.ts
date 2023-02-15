@@ -8,7 +8,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: 'fine-tunes',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -18,7 +18,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes create',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调.创建微调 }),
         },
@@ -29,7 +29,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes list',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调.列出微调 }),
         },
@@ -40,7 +40,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes retrieval',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调.检索微调 }),
         },
@@ -51,7 +51,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes cancel',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调.取消微调 }),
         },
@@ -62,7 +62,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes event list',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调['List fine-tune events'] }),
         },
@@ -73,7 +73,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'fine-tunes event delete',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 微调['Delete fine-tune model'] }),
         },

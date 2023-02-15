@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: '模型',
         requiresAuth: true,
-        icon: 'icon-park-outline:analysis',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -15,7 +15,7 @@ export default <RouteRecordRaw>{
             component: () => import('@/views/api/index.vue'),
             meta: {
                 title: '列出模型',
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 模型.列出模型 }),
         },
@@ -24,7 +24,7 @@ export default <RouteRecordRaw>{
             component: () => import('@/views/api/index.vue'),
             meta: {
                 title: '检索模型',
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 模型.检索模型 }),
         },

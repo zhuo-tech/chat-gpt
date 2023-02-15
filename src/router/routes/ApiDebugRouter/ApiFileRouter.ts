@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: '文件',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '列出文件',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 文件.列出文件 }),
         },
@@ -28,7 +28,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '上传文件',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 文件.上传文件 }),
         },
@@ -39,7 +39,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '删除文件',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 文件.删除文件 }),
         },
@@ -50,7 +50,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '检索文件',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 文件.检索文件 }),
         },
@@ -61,7 +61,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '检索文件内容',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 文件.检索文件内容 }),
         },

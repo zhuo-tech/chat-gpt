@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: 'embeddings',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: 'image create',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 嵌入.创建嵌入 }),
         },

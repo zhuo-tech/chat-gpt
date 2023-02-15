@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: '编辑',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '创建编辑',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 编辑.创建编辑 }),
         },

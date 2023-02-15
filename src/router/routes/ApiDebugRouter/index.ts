@@ -14,7 +14,7 @@ export default <RouteRecordRaw>{
     component: BasicLayout,
     meta: {
         title: 'API 调试',
-        icon: 'mdi:monitor-dashboard',
+        localIcon: 'api',
         order: 1,
     },
     children: [

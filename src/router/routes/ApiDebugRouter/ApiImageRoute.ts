@@ -7,7 +7,7 @@ export default <RouteRecordRaw>{
     meta: {
         title: '图像',
         requiresAuth: true,
-        icon: 'icon-park-outline:workbench',
+        localIcon: 'folder',
     },
     children: [
         {
@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '创建图像',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 图像.创建映像试用版 }),
         },
@@ -28,7 +28,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '创建图像编辑',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 图像.创建图像编辑试用版 }),
         },
@@ -39,7 +39,7 @@ export default <RouteRecordRaw>{
             meta: {
                 title: '创建图像变体',
                 requiresAuth: true,
-                icon: 'icon-park-outline:workbench',
+                localIcon: 'brackets-outline',
             },
             props: () => ({ openAIApi: 图像.创建图像变体试用版 }),
         },
