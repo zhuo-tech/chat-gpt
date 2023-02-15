@@ -1,6 +1,6 @@
 import { VITE_LAF_URL } from '@/config'
 import { getToken } from '@/store/modules/auth/helpers'
-import { Axios, AxiosRequestConfig } from 'axios'
+import { Axios, AxiosError, AxiosRequestConfig } from 'axios'
 
 /**
  * Http 客户端
@@ -10,8 +10,8 @@ import { Axios, AxiosRequestConfig } from 'axios'
  */
 const axios = new Axios({
     baseURL: VITE_LAF_URL,
-    timeout: 1000 * 10,
-    timeoutErrorMessage: '请求等待10秒仍未有响应, 请求超时',
+    timeout: 1000 * 20,
+    timeoutErrorMessage: '请求等待20秒仍未有响应, 请求超时',
     withCredentials: false,
     maxRedirects: 3,
     transformRequest: [
@@ -150,4 +150,9 @@ function HttpResponseAssertion(data: any): Promise<any> {
  */
 export function StandardErrorProcessor(error: any): void {
     console.debug('[HTTP 响应错误]: ', error)
+
+    if (error instanceof AxiosError) {
+        window.$message?.error(error.message)
+    }
+
 }

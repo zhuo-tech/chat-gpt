@@ -26,7 +26,13 @@
                     <n-input v-model:value="body.url" :allow-input="noSideSpace" placeholder="URL" />
                 </n-input-group>
                 <br><br>
-                <n-input v-model="body.body" :autosize="{minRows: 10, maxRows: 30}" placeholder="请求体 JSON" type="textarea" />
+                <n-input
+                    v-if="hasBody"
+                    v-model:value="body.body"
+                    :autosize="{minRows: 5, maxRows: 30}"
+                    placeholder="请求体 JSON"
+                    type="textarea"
+                />
             </div>
         </n-tab-pane>
         <!-- 实际固定的请求头 -->
@@ -48,7 +54,10 @@ import { computed, ref, watch } from 'vue'
 
 defineOptions({ name: 'RequestPanel' })
 
-const props = defineProps<{ formData?: ProxyApi }>()
+const props = defineProps<{
+    formData?: ProxyApi
+    hasBody?: boolean
+}>()
 const emit = defineEmits<{
     (event: 'send', value: AxiosRequestConfig): void
     (event: 'update:formData', value: any): void

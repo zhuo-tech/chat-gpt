@@ -2,22 +2,30 @@
     <n-card>
         <div class="api-debug-wrapper">
             <n-spin :show="loading">
-                <RequestPanel v-model:form-data="request" @send="onSendRequest" />
+                <RequestPanel
+                    v-model:form-data="request"
+                    :has-body="!!openAIApi.body"
+                    @send="onSendRequest"
+                />
             </n-spin>
+
             <!-- 响应面板 -->
-            <ResponsePanel :value="response" />
+            <ResponsePanel :value="response">
+                <n-alert v-show="errMsg" type="error">
+                    <div>{{ errMsg }}</div>
+                </n-alert>
+            </ResponsePanel>
         </div>
     </n-card>
 </template>
 
 <script lang="ts" setup>
-import { OpenAIApi } from '@/service'
 import { openAIProxy } from '@/service/api/CloudFun'
 import { StandardErrorProcessor } from '@/service/request'
 import { getToken } from '@/store/modules/auth/helpers'
 import RequestPanel from '@/views/api/components/RequestPanel.vue'
 import ResponsePanel from '@/views/api/components/ResponsePanel.vue'
-import { proxyApi, ProxyApi } from '@/views/api/openAI'
+import { OpenAiApi, proxyApi, ProxyApi } from '@/views/api/openAI'
 import { AxiosRequestConfig } from 'axios'
 import { ref } from 'vue'
 
@@ -27,7 +35,7 @@ const token = getToken()
 proxyApi.header['Authorization'] = token
 
 const props = withDefaults(
-    defineProps<{ proxyApi?: ProxyApi, openAIApi: OpenAIApi }>(),
+    defineProps<{ proxyApi?: ProxyApi, openAIApi: OpenAiApi }>(),
     { proxyApi: proxyApi as any },
 )
 
@@ -36,15 +44,22 @@ copy.body = props.openAIApi
 
 const request = ref(copy)
 const loading = ref(false)
-const response = ref({})
+const response = ref(null)
+const errMsg = ref('')
 
 const onSendRequest = (value: AxiosRequestConfig) => {
     loading.value = true
     openAIProxy(value.data)
         .then(res => {
             response.value = res as any
+            errMsg.value = ''
         })
-        .catch(StandardErrorProcessor)
+        .catch(err => {
+            if (err.msg) {
+                errMsg.value = err.msg
+            }
+            StandardErrorProcessor(err)
+        })
         .finally(() => loading.value = false)
 }
 

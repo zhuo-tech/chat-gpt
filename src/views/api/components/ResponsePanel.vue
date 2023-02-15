@@ -1,6 +1,7 @@
 <template>
     <n-collapse :default-expanded-names="expanded" accordion>
         <n-collapse-item name="response" title="响应">
+            <slot></slot>
             <n-card class="min-height">
                 <n-config-provider :hljs="Highlight">
                     <!-- TODO: 临时, 应使用动态最大高度 -->
