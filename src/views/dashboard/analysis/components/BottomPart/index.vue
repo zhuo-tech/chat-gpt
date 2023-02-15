@@ -8,7 +8,7 @@
             </n-card>
         </n-grid-item>
         <n-grid-item span="0:24 640:24 1024:16">
-            <n-card :bordered="false" class="rounded-16px shadow-sm" title="表格">
+            <n-card :bordered="false" class="rounded-16px shadow-sm" title="最近调用记录">
                 <n-data-table :columns="columns" :data="tableData" size="small" />
             </n-card>
         </n-grid-item>

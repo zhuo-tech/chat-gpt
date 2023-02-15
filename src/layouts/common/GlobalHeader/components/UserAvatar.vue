@@ -1,22 +1,17 @@
 <template>
-  <n-dropdown
-    :options="options"
-    @select="handleDropdown"
-    class="n-dropdown"
-    placement="top-end"
-  >
-    <hover-container :inverted="theme.header.inverted" class="hover-con" style="px-12px  display: flex; justify-content: end; ">
-      <n-avatar
-        :size="32"
-        :src="auth.userInfo.avatar"
-      >
-        <template #fallback>
-          <icon-local-avatar class="text-32px" />
-        </template>
-      </n-avatar>
-      <span class="pl-8px text-16px font-medium">{{ auth.userInfo.username }}</span>
-    </hover-container>
-  </n-dropdown>
+    <n-dropdown :options="options" @select="handleDropdown" class="n-dropdown"  placement="top-end">
+        <hover-container :inverted="theme.header.inverted" class="hover-con" style="px-12px display: flex; justify-content: end;">
+            <n-avatar
+                :size="32"
+                :src="auth.userInfo.avatar"
+            >
+                <template #fallback>
+                    <icon-local-avatar class="text-32px" />
+                </template>
+            </n-avatar>
+            <span class="pl-8px text-16px font-medium">{{ auth.userInfo.username }}</span>
+        </hover-container>
+    </n-dropdown>
 </template>
 
 <script lang="ts" setup>

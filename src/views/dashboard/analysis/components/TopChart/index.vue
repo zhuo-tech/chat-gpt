@@ -4,17 +4,20 @@
             <n-card :bordered="false" class="rounded-16px shadow-sm">
                 <div class="flex w-full h-360px">
                     <div class="w-200px h-full py-12px">
-                        <h3 class="text-16px font-bold">Dashboard</h3>
-                        <p class="text-[#aaa]">Overview Of Lasted Month</p>
+                        <h3 class="text-16px font-bold">数据概览</h3>
+                        <p class="text-[#aaa]">当天接口调用情况</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="7754" :start-value="0" prefix="$" />
+                            <count-to :end-value="100" :start-value="0" suffix="次" />
                         </h3>
-                        <p class="text-[#aaa]">Current Month Earnings</p>
+                        <p class="text-[#aaa]">平台赠送额度</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="1234" :start-value="0" />
+                            <count-to :end-value="99" :start-value="0" suffix="次" />
                         </h3>
-                        <p class="text-[#aaa]">Current Month Sales</p>
-                        <n-button class="mt-24px" type="primary">Last Month Summary</n-button>
+                        <p class="text-[#aaa]">已用次数</p>
+                        <h3 class="pt-36px text-24px font-bold">
+                            <count-to :end-value="1" :start-value="0" suffix="次" />
+                        </h3>
+                        <p class="text-[#aaa]">可用额度</p>
                     </div>
                     <div class="flex-1-hidden h-full">
                         <div ref="lineRef" class="wh-full"></div>
@@ -48,7 +51,7 @@ const lineOptions = ref<ECOption>({
         },
     },
     legend: {
-        data: [ '下载量', '注册数' ],
+        data: [ '调用量'],
     },
     grid: {
         left: '3%',
@@ -71,7 +74,7 @@ const lineOptions = ref<ECOption>({
     series: [
         {
             color: '#8e9dff',
-            name: '下载量',
+            name: '调用量',
             type: 'line',
             smooth: true,
             stack: 'Total',
@@ -98,36 +101,6 @@ const lineOptions = ref<ECOption>({
                 focus: 'series',
             },
             data: [ 4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311 ],
-        },
-        {
-            color: '#26deca',
-            name: '注册数',
-            type: 'line',
-            smooth: true,
-            stack: 'Total',
-            areaStyle: {
-                color: {
-                    type: 'linear',
-                    x: 0,
-                    y: 0,
-                    x2: 0,
-                    y2: 1,
-                    colorStops: [
-                        {
-                            offset: 0.25,
-                            color: '#26deca',
-                        },
-                        {
-                            offset: 1,
-                            color: '#fff',
-                        },
-                    ],
-                },
-            },
-            emphasis: {
-                focus: 'series',
-            },
-            data: [ 2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678 ],
         },
     ],
 }) as Ref<ECOption>

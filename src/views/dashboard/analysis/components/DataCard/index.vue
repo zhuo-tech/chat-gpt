@@ -34,7 +34,7 @@ interface CardData {
 const cardData: CardData[] = [
     {
         id: 'visit',
-        title: '访问量',
+        title: '赠送额度',
         value: 1000000,
         unit: '',
         colors: [ '#ec4786', '#b955a4' ],
@@ -42,27 +42,27 @@ const cardData: CardData[] = [
     },
     {
         id: 'amount',
-        title: '成交额',
+        title: '累计使用',
         value: 234567.89,
-        unit: '$',
+        unit: '',
         colors: [ '#865ec0', '#5144b4' ],
-        icon: 'ant-design:money-collect-outlined',
+        icon: 'ant-design:bar-chart-outlined',
     },
     {
         id: 'download',
-        title: '下载数',
+        title: '可用次数',
         value: 666666,
         unit: '',
         colors: [ '#56cdf3', '#719de3' ],
-        icon: 'carbon:document-download',
+        icon: 'ant-design:bar-chart-outlined',
     },
     {
         id: 'trade',
-        title: '成交数',
+        title: '今日使用',
         value: 999999,
         unit: '',
         colors: [ '#fcbc25', '#f68057' ],
-        icon: 'ant-design:trademark-circle-outlined',
+        icon: 'ant-design:bar-chart-outlined',
     },
 ]
 </script>
