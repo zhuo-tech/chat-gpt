@@ -38,15 +38,22 @@ const pagination: PaginationProps = reactive({
     },
 })
 const getTableData = () => {
-    DB.collection('biz_log')
-        .page({ current: pagination.page!, size: pagination.pageSize! })
-        .orderBy('time', 'desc')
-        .get()
-        .then(({ ok, data }) => {
-            if (ok) {
-                tableData.value = data
-            }
-        })
+    const collName = 'biz_log'
+
+    const asyncAction = async () => {
+        // const {total} = await DB.collection(collName)
+        //     .count()
+        const { ok, data } = await DB.collection(collName)
+            .page({ current: pagination.page!, size: pagination.pageSize! })
+            .orderBy('time', 'desc')
+            .get()
+
+        if (ok) {
+            tableData.value = data
+        }
+    }
+
+    asyncAction()
         .catch(err => {
             console.debug('错误: ', err)
             window.$message?.error(err?.message)
@@ -71,8 +78,8 @@ const columns: Ref<DataTableColumns<BizLog>> = ref([
         align: 'center',
     },
     {
-        key: '响应',
-        title: '标题',
+        key: 'response',
+        title: '响应',
         align: 'center',
     },
 ])
