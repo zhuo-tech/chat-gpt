@@ -1,2 +1,2 @@
 export * from './ApiDoc'
-export * from './AbstractApiInstance'
+export * from './ApiType'

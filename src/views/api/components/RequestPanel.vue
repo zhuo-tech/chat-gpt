@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { HttpMethod } from '@/views/api/Constant'
-import { OpenAiApi, ProxyApi } from '@/views/api/openAI/AbstractApiInstance'
+import { OpenAiApi, ProxyApi } from '@/views/api/openAI'
 import { toOption } from '@/views/api/Tools'
 import { AxiosRequestConfig } from 'axios'
 import { computed, ref, watch } from 'vue'

@@ -17,7 +17,7 @@ import { StandardErrorProcessor } from '@/service/request'
 import { getToken } from '@/store/modules/auth/helpers'
 import RequestPanel from '@/views/api/components/RequestPanel.vue'
 import ResponsePanel from '@/views/api/components/ResponsePanel.vue'
-import { proxyApi, ProxyApi } from '@/views/api/openAI/AbstractApiInstance'
+import { proxyApi, ProxyApi } from '@/views/api/openAI'
 import { AxiosRequestConfig } from 'axios'
 import { ref } from 'vue'
 

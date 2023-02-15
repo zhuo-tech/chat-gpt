@@ -2,7 +2,7 @@ import { VITE_LAF_URL } from '@/config'
 import { HttpMethod } from '@/views/api/Constant'
 
 /**
- * AbstractApiInstance
+ * ApiType
  *
  * @author 冰凝
  * @date 2023-02-15 15:54
