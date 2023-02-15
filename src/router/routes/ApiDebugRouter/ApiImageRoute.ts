@@ -1,3 +1,4 @@
+import { 图像 } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -18,6 +19,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
+            props: () => ({ openAIApi: 图像.创建映像试用版 }),
         },
         {
             name: 'api-image-edit',
@@ -28,6 +30,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
+            props: () => ({ openAIApi: 图像.创建图像变体试用版 }),
         },
         {
             name: 'api-image-variations',
@@ -38,6 +41,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
+            props: () => ({ openAIApi: 图像.创建图像编辑试用版 }),
         },
     ],
 }
