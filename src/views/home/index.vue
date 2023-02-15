@@ -1,35 +1,92 @@
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 <script lang="ts" setup>
-import { VITE_ROUTE_HOME_PATH } from "@/config";
-import { getToken } from "@/store/modules/auth/helpers";
-import { useRouter } from "vue-router";
+// import { VITE_ROUTE_HOME_PATH } from "@/config";
+// import { getToken } from "@/store/modules/auth/helpers";
+// import { useRouter } from "vue-router";
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
+import { OpenAIApi, OpenAIFineTunesApi, OpenAIFileApi } from "@/service";
+import { ref } from "vue";
 
 defineOptions({ name: "Home" });
-const router = useRouter();
+
+const problem = ref();
+
+const answer = ref();
+
+const linumber = ref(true);
+
+// const router = useRouter();
 
 // 已登录直接跳转到管理首页
-if (getToken()) {
-  router.push(VITE_ROUTE_HOME_PATH);
+// if (getToken()) {
+//   router.push(VITE_ROUTE_HOME_PATH);
+// }
+
+OpenAIApi.modelsList();
+
+//获取回答
+async function getdata() {
+  const r = await OpenAIApi.completions({
+    model: "babbage",
+    prompt: problem.value,
+    user: "",
+  });
+  answer.value = r.data.choices[0].text;
+  answerdata();
 }
 
-// function displayText() {
-//   const input = document.getElementById("inputText").value;
-//   document.getElementById("display").innerHTML = input;
-// }
+//创建对话框
+function displayText() {
+  if (problem.value !== undefined) {
+    linumber.value = false;
+    const div = document.createElement("div");
+    const t = document.createTextNode(problem.value);
+    const style = document.createAttribute("id");
+    style.value = "dialogueDIV";
+    div.setAttributeNode(style);
+    document.body.appendChild(div);
+    div.appendChild(t);
+    document?.getElementById("myList")?.appendChild(div);
+
+    problem.value = "";
+    getdata();
+  }
+}
+
+//创建回复内容
+function answerdata() {
+  const div = document.createElement("div");
+  const t = document.createTextNode(answer.value);
+  const style = document.createAttribute("id");
+  style.value = "answerDIV";
+  div.setAttributeNode(style);
+  document.body.appendChild(div);
+  div.appendChild(t);
+  document?.getElementById("myList")?.appendChild(div);
+
+
+}
+
+//清空内容
+function emptyBut() {
+  var box = document.getElementById("myList");
+  box?.parentNode?.removeChild(box);
+  linumber.value = true;
+  location.reload();
+}
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 <template>
   <div class="page">
-    <UserAvatar  />
-    <div class="title">
-      <h1>ChatGPT</h1>
+    <UserAvatar />
+
+    <div class="begintitle">
+      <h1 v-show="linumber">ChatGPT</h1>
     </div>
+    <div id="myList"></div>
 
-    <p id="display"></p> 
-
-    <div class="exhibition">
+    <div v-show="linumber" class="exhibition">
       <div class="witem" data-v-8a83588a="">
         <svg
           class="w-6 h-6 m-auto"
@@ -111,71 +168,134 @@ if (getToken()) {
         <p data-v-8a83588a="">对2021年后的世界和事件的了解有限</p>
       </div>
     </div>
-    <div class="el-input__wrapper">
-      <input
-        class="el-input__inner"
-        type="text"
-        autocomplete="off"
-        tabindex="0"
-        id="el-id-3892-3"
-      /><span class="el-input__suffix"
-        ><span class="el-input__suffix-inner"><a class="" data-v-8a83588a=""></a></span
-      ></span>
-    </div>
+    <div class="steppingstone"></div>
 
-    <div class="w-full h-32 md:h-68 flex-shrink-0"></div>
-
-    <div class="relative flex h-full flex-1 md:flex-col">
-      <div
-        class="flex ml-1 mt-1.5 md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 justify-center"
-      ></div>
-      <div
-        class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]"
+    <n-button @click="emptyBut" v-show="!linumber" class="defbut">
+      <svg
+        class="w-5 h-5"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 1024 1024"
       >
-        <textarea
-        id="inputText"
-          tabindex="0"
-          data-id="root"
-          style="max-height: 200px; height: 24px; overflow-y: hidden"
-          rows="1"
-          class="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
-        ></textarea
-        ><button
-          class="absolute p-1 rounded-md text-gray-500 bottom-1.5 right-1 md:bottom-2.5 md:right-2 hover:bg-gray-100 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
+        <path
+          d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"
+          fill="currentColor"
+        ></path></svg
+      >清空内容</n-button
+    >
+
+    <div class="inputbox">
+      <div class="relative flex h-full flex-1 md:flex-col">
+        <div
+          class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]"
         >
-          <svg
-            stroke="currentColor"
-            fill="none"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-4 w-4 mr-1"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <textarea
+            @keyup.enter="displayText"
+            tabindex="0"
+            data-id="root"
+            rows="1"
+            v-model="problem"
+            class="text m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
+          ></textarea
+          ><button
+            @click="displayText"
+            class="absolute p-1 rounded-md text-gray-500 bottom-1.5 right-1 md:bottom-16 md:right-2 hover:bg-gray-100 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
           >
-            <line x1="22" y1="2" x2="11" y2="13"></line>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-          </svg>
-        </button>
+            <svg
+              stroke="currentColor"
+              fill="none"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4 mr-1"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-.title h1 {
+<style>
+.page {
+  position: relative;
+  background-color: #f7f7f8;
+  height: 100vh;
+}
+.inputbox {
+  position: fixed;
+  width: 100%;
+  height: 150px;
+  bottom: 0px;
+  z-index: 9;
+}
+.defbut {
+  position: fixed;
+  right: 2px;
+  bottom: 152px;
+  background-color: #fff;
+}
+.text {
+  position: absolute;
+  top: 50px;
+  border: 1px solid #e5e5e5;
+  height: 40px;
+  padding: 10px;
+}
+
+#myList {
+  width: 100%;
+  margin: auto;
+  overflow: auto;
+}
+.steppingstone {
+  width: 100%;
+  height: 160px;
+}
+#dialogueDIV {
+  width: 100%;
+  background-color: #fff;
+  line-height: 50px;
+  text-indent: 200px;
+  display: flex;
+}
+.gptlogo {
+  width: 20px;
+  height: 20px;
+}
+
+
+
+#answerDIV {
+  width: 100%;
+  background-color: #f7f7f8;
+  line-height: 50px;
+  text-indent: 200px;
+  border-top: 1px solid #dededf;
+  border-bottom: 1px solid #dededf;
+}
+
+.dialogueDIV img {
+  width: 100px;
+  height: 200px;
+}
+
+.begintitle {
+  width: 100%;
+  padding: 50px 50px 30px 50px;
+}
+.begintitle h1 {
   padding: 50px;
   font-size: 28px;
   font-weight: bold;
   text-align: center;
-}
-
-.inputbox {
-  width: 100%;
-  margin: auto;
-  display: flex;
 }
 
 .exhibition {
@@ -184,7 +304,7 @@ if (getToken()) {
   display: flex;
   justify-content: space-around;
 }
-#display{
+#display {
   width: 80%;
   margin: auto;
 }
@@ -194,9 +314,8 @@ if (getToken()) {
   padding: 10px;
   margin-top: 15px;
   font-size: 16px;
-  background-color: #f7f7f8;
+  background-color: #ffffff;
   border-radius: 5px;
-  cursor: pointer;
   text-align: center;
 }
 
@@ -207,19 +326,10 @@ if (getToken()) {
   text-align: center;
 }
 
-
-.witem p:hover {
-  background-color: #d9d9e3;
-}
 textarea {
   border: none;
   resize: none;
   cursor: pointer;
   outline: none;
 }
-:deep(.hover-con) {
- display: flex;
- justify-content: end;
-  }
-
 </style>
