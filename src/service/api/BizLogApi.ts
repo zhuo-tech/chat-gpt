@@ -12,4 +12,12 @@ export class BizLogApi {
         return Get<Laf.Page<Laf.BizLog>>('/bizLogPage', { params })
     }
 
+    /**
+     * 最新的记录, 依赖 {@link page} 的排序方式
+     */
+    public static async lastList(size: number = 10) {
+        const res = await this.page({ size, page: 1 })
+        return res.data.list ?? []
+    }
+
 }

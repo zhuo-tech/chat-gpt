@@ -1,43 +1,36 @@
 <template>
-    <n-config-provider :hljs="Highlight">
-        <n-card :bordered="false" class="rounded-16px shadow-sm" title="用户管理">
-            <n-space class="pb-12px" justify="space-between">
-                <n-space></n-space>
-                <n-space :size="18" align="center">
-                    <n-button size="small" type="primary" @click="getTableData">
-                        <icon-mdi-refresh :class="{ 'animate-spin': loading }" class="mr-4px text-16px" />
-                        刷新
-                    </n-button>
-                </n-space>
+    <n-card :bordered="false" class="rounded-16px shadow-sm" title="调用记录">
+        <n-space class="pb-12px" justify="space-between">
+            <n-space></n-space>
+            <n-space :size="18" align="center">
+                <n-button size="small" type="primary" @click="getTableData">
+                    <icon-mdi-refresh :class="{ 'animate-spin': loading }" class="mr-4px text-16px" />
+                    刷新
+                </n-button>
             </n-space>
-            <n-data-table
-                ref="table"
-                :columns="columns"
-                :data="tableData"
-                :loading="loading"
-                :pagination="pagination"
-                :remote="true"
-                :row-key="line => line._id"
-                max-height="70vh"
-                @update:page="onPageChange"
-                @update:pageSize="onPageSizeChange"
-            />
-        </n-card>
-    </n-config-provider>
+        </n-space>
+        <n-data-table
+            ref="table"
+            :columns="columns"
+            :data="tableData"
+            :loading="loading"
+            :pagination="pagination"
+            :remote="true"
+            :row-key="line => line._id"
+            max-height="70vh"
+            @update:page="onPageChange"
+            @update:pageSize="onPageSizeChange"
+        />
+    </n-card>
 
 </template>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 <script lang="tsx" setup>
 import { BizLogApi } from '@/service'
-import Highlight from 'highlight.js/lib/core'
-import json from 'highlight.js/lib/languages/json'
-import http from 'highlight.js/lib/languages/json'
 import { DataTableColumns, PaginationProps } from 'naive-ui'
 import { reactive, ref } from 'vue'
 
 defineOptions({ name: 'LogPage' })
-Highlight.registerLanguage('json', json)
-Highlight.registerLanguage('http', http)
 const loading = ref(false)
 const tableData = ref<Array<Laf.BizLog>>([])
 const pagination: PaginationProps = reactive({
@@ -86,10 +79,10 @@ const columns = ref([
         renderExpand: (line) => {
             return (
                 <div>
-                    <n-h2>请求:</n-h2>
+                    <n-h3>请求:</n-h3>
                     <n-code code={ JSON.stringify(line.request, null, 4) } language="json" word-wrap />
                     <n-divider />
-                    <n-h2>响应:</n-h2>
+                    <n-h3>响应:</n-h3>
                     <n-code code={ JSON.stringify(line.response, null, 4) } language="json" word-wrap />
                 </div>
             )

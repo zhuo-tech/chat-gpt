@@ -9,15 +9,26 @@
         </n-grid-item>
         <n-grid-item span="0:24 640:24 1024:16">
             <n-card :bordered="false" class="rounded-16px shadow-sm" title="最近调用记录">
-                <n-data-table :columns="columns" :data="tableData" size="small" />
+                <n-data-table
+                    ref="table"
+                    :columns="columns"
+                    :data="tableData"
+                    :loading="loading"
+                    :remote="true"
+                    :row-key="line => line._id"
+                    max-height="40vh"
+                />
             </n-card>
         </n-grid-item>
     </n-grid>
 </template>
 
-<script lang="ts" setup>
-import { h } from 'vue'
-import { NTag } from 'naive-ui'
+<script lang="tsx" setup>
+
+import { BizLogApi } from '@/service'
+import { StandardErrorProcessor } from '@/service/request'
+import { DataTableColumns } from 'naive-ui'
+import { ref } from 'vue'
 
 defineOptions({ name: 'DashboardAnalysisBottomPart' })
 
@@ -36,6 +47,9 @@ interface TableData {
     tags: string[];
 }
 
+const loading = ref(false)
+const tableData = ref<Array<Laf.BizLog>>([])
+
 const timelines: TimelineData[] = [
     { type: 'default', title: '啊', content: '', time: '2021-10-10 20:46' },
     { type: 'success', title: '成功', content: '哪里成功', time: '2021-10-10 20:46' },
@@ -46,91 +60,46 @@ const timelines: TimelineData[] = [
 
 const columns = [
     {
-        title: 'Name',
-        key: 'name',
+        key: 'time2',
+        title: '时间',
+        align: 'center',
+        width: '150px',
+        ellipsis: { tooltip: true },
     },
     {
-        title: 'Age',
-        key: 'age',
+        key: 'request.url',
+        title: 'URL',
+        align: 'left',
+        width: '250px',
+        ellipsis: { tooltip: true },
+        render: (line) => (<n-code code={ `${ line.request.method } ${ line.request.url }` } language="json" />),
     },
     {
-        title: 'Address',
-        key: 'address',
+        key: 'status',
+        title: '状态',
+        align: 'center',
+        width: '100px',
+        render: (line) => (<span>{ line.status } { line.statusText }</span>),
     },
     {
-        title: 'Tags',
-        key: 'tags',
-        render(row: TableData) {
-            const tags = row.tags.map(tagKey => {
-                return h(
-                    NTag,
-                    {
-                        style: {
-                            marginRight: '6px',
-                        },
-                        type: 'info',
-                    },
-                    {
-                        default: () => tagKey,
-                    },
-                )
-            })
-            return tags
-        },
+        key: 'request',
+        title: '请求',
+        align: 'left',
+        ellipsis: { tooltip: true },
+        minWidth: 100,
+        render: (line) => (<n-code code={ JSON.stringify(line.request) } language="json" />),
     },
-]
+] as DataTableColumns<Laf.BizLog>
 
-const tableData: TableData[] = [
-    {
-        key: 0,
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: [ 'nice', 'developer' ],
-    },
-    {
-        key: 1,
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: [ 'wow' ],
-    },
-    {
-        key: 2,
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: [ 'cool', 'teacher' ],
-    },
-    {
-        key: 3,
-        name: 'Soybean',
-        age: 25,
-        address: 'China Shenzhen',
-        tags: [ 'handsome', 'programmer' ],
-    },
-    {
-        key: 4,
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: [ 'nice', 'developer' ],
-    },
-    {
-        key: 5,
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: [ 'wow' ],
-    },
-    {
-        key: 6,
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: [ 'cool', 'teacher' ],
-    },
-]
+const getLog = () => {
+    loading.value = true
+    BizLogApi.lastList()
+        .then(list => tableData.value = list)
+        .catch(StandardErrorProcessor)
+        .finally(() => loading.value = false)
+}
+getLog()
+
 </script>
 
 <style scoped></style>

@@ -16,7 +16,7 @@ declare namespace PageRoute {
    * @translate 页面路由
    */
   type RouteKey =
-    | '403'
+      | '403'
       | '404'
       | '500'
       | 'constant-page'
