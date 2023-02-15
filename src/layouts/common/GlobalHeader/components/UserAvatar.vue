@@ -3,7 +3,7 @@
         <hover-container :inverted="theme.header.inverted" class="hover-con" style="px-12px">
             <n-avatar
                 :size="32"
-                :src="auth.userInfo.avatar"
+                :src="auth.userInfo.avatar || 'https://docs.lafyun.com/logo.png' "
             >
                 <template #fallback>
                     <icon-local-avatar class="text-32px" />

@@ -1,6 +1,6 @@
 <template>
     <dark-mode-container class="flex-center h-full">
-        <span>版权 ©2021 XX_XX_XX_XX</span>
+        <span>Copyright © 2021-present labring/laf</span>
     </dark-mode-container>
 </template>
 
