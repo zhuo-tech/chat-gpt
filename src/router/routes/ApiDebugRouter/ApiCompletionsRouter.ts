@@ -5,7 +5,7 @@ export default <RouteRecordRaw>{
     name: 'api-completions',
     path: '/api/completions',
     meta: {
-        title: 'completions',
+        title: '完成',
         requiresAuth: true,
         icon: 'icon-park-outline:workbench',
     },
@@ -15,7 +15,7 @@ export default <RouteRecordRaw>{
             path: '/api/completions/create',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'completions',
+                title: '创建 completions',
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },

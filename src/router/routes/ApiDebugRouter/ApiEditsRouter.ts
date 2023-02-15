@@ -5,7 +5,7 @@ export default <RouteRecordRaw>{
     name: 'api-edit',
     path: '/api/edit',
     meta: {
-        title: 'edit',
+        title: '编辑',
         requiresAuth: true,
         icon: 'icon-park-outline:workbench',
     },
@@ -15,7 +15,7 @@ export default <RouteRecordRaw>{
             path: '/api/edit/create',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'edit',
+                title: '创建编辑',
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },

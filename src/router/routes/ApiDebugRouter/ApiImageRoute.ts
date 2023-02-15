@@ -5,7 +5,7 @@ export default <RouteRecordRaw>{
     name: 'api-image',
     path: '/api/image',
     meta: {
-        title: 'image',
+        title: '图像',
         requiresAuth: true,
         icon: 'icon-park-outline:workbench',
     },
@@ -15,7 +15,7 @@ export default <RouteRecordRaw>{
             path: '/api/image/create',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'image create',
+                title: '创建图像',
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
@@ -26,22 +26,22 @@ export default <RouteRecordRaw>{
             path: '/api/image/edit',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'image edit',
+                title: '创建图像编辑',
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
-            props: () => ({ openAIApi: 图像.创建图像变体试用版 }),
+            props: () => ({ openAIApi: 图像.创建图像编辑试用版 }),
         },
         {
             name: 'api-image-variations',
             path: '/api/image/variations',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'image variations',
+                title: '创建图像变体',
                 requiresAuth: true,
                 icon: 'icon-park-outline:workbench',
             },
-            props: () => ({ openAIApi: 图像.创建图像编辑试用版 }),
+            props: () => ({ openAIApi: 图像.创建图像变体试用版 }),
         },
     ],
 }
