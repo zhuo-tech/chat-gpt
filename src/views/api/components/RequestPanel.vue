@@ -13,7 +13,7 @@
             <n-input-group>
                 <n-select v-model:value="formData.method" :options="methodOption" class="method-select" />
                 <n-input v-model:value="formData.url" :allow-input="noSideSpace" disabled placeholder="请求地址" />
-                <n-button class="send-btn" ghost type="primary" @click="() => emit('send')">发送</n-button>
+                <n-button class="send-btn" ghost type="primary" @click="onSend">发送</n-button>
             </n-input-group>
         </n-form-item>
     </n-form>
@@ -23,7 +23,7 @@
             <div class="request-body">
                 <n-input-group>
                     <n-select v-model:value="body.method" :options="bodyMethodOption" class="method-select" />
-                    <n-input v-model:value="body.url" :allow-input="noSideSpace" disabled placeholder="URL" />
+                    <n-input v-model:value="body.url" :allow-input="noSideSpace" placeholder="URL" />
                 </n-input-group>
                 <br><br>
                 <n-input v-model="body.body" :autosize="{minRows: 10, maxRows: 30}" placeholder="请求体 JSON" type="textarea" />
@@ -43,13 +43,14 @@
 import { HttpMethod } from '@/views/api/Constant'
 import { OpenAiApi, ProxyApi } from '@/views/api/openAI/AbstractApiInstance'
 import { toOption } from '@/views/api/Tools'
+import { AxiosRequestConfig } from 'axios'
 import { computed, ref, watch } from 'vue'
 
 defineOptions({ name: 'RequestPanel' })
 
 const props = defineProps<{ formData?: ProxyApi }>()
 const emit = defineEmits<{
-    (event: 'send'): void
+    (event: 'send', value: AxiosRequestConfig): void
     (event: 'update:formData', value: any): void
 }>()
 
@@ -75,6 +76,26 @@ const body = computed<OpenAiApi>({
 })
 
 const noSideSpace = (value: string) => !value.startsWith(' ') && !value.endsWith(' ')
+
+const onSend = () => {
+    const config = formData.value
+    const { body } = formData.value
+
+    const data = body
+        ? {
+            url: body.url,
+            method: body.method,
+            body: body.body,
+        }
+        : undefined
+
+    emit('send', {
+        url: config.url,
+        method: config.method,
+        headers: config.header,
+        data: data,
+    })
+}
 
 watch(
     () => props.formData,
