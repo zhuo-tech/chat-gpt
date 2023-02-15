@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { DropdownOption } from "naive-ui";
-import { useAuthStore, useThemeStore } from "@/store";
-import { useIconRender } from "@/composables";
+import { useIconRender } from '@/composables'
+import { useAuthStore, useThemeStore } from '@/store'
+import type { DropdownOption } from 'naive-ui'
 
 defineOptions({ name: "UserAvatar" });
 
@@ -26,15 +26,6 @@ const theme = useThemeStore();
 const { iconRender } = useIconRender();
 
 const options: DropdownOption[] = [
-  {
-    label: "用户中心",
-    key: "user-center",
-    icon: iconRender({ icon: "carbon:user-avatar" }),
-  },
-  {
-    type: "divider",
-    key: "divider",
-  },
   {
     label: "退出登录",
     key: "logout",

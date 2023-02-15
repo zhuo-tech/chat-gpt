@@ -9,7 +9,6 @@
         <div class="flex justify-end h-full">
             <full-screen />
             <theme-mode />
-            <system-message />
             <setting-button v-if="showButton" />
             <user-avatar  />
         </div>
@@ -17,20 +16,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useBasicLayout } from '@/composables'
 import { PROD, VITE_VERCEL } from '@/config'
 import { useThemeStore } from '@/store'
-import { useBasicLayout } from '@/composables'
 import GlobalLogo from '../GlobalLogo/index.vue'
-import {
-    FullScreen,
-    GlobalBreadcrumb,
-    HeaderMenu,
-    MenuCollapse,
-    SettingButton,
-    SystemMessage,
-    ThemeMode,
-    UserAvatar,
-} from './components'
+import { FullScreen, GlobalBreadcrumb, HeaderMenu, MenuCollapse, SettingButton, ThemeMode, UserAvatar } from './components'
 
 defineOptions({ name: 'GlobalHeader' })
 
