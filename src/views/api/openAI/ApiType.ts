@@ -25,7 +25,11 @@ export interface OpenAiApi {
 }
 
 export const proxyApi: ProxyApi = {
-    url: VITE_LAF_URL + 'open-ai',
+    url: completeSuffix(VITE_LAF_URL, '/') + 'open-ai',
     method: HttpMethod.POST,
     header: {},
+}
+
+function completeSuffix(s: string, suffix: string) {
+    return s.endsWith(suffix) ? s : s + suffix
 }

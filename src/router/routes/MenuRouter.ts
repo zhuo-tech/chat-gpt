@@ -21,9 +21,9 @@ export default <Array<RouteRecordRaw>>[
                 },
             },
             {
-                name: 'dashboard_workbench',
-                path: '/dashboard/workbench',
-                component: () => import('@/views/dashboard/workbench/index.vue'),
+                name: 'dashboard_log',
+                path: '/dashboard/log',
+                component: () => import('@/views/log/index.vue'),
                 meta: {
                     title: '调用记录',
                     requiresAuth: true,
