@@ -17,7 +17,7 @@ export default <RouteRecordRaw>{
             path: '/api/embeddings/create',
             component: () => import('@/views/api/index.vue'),
             meta: {
-                title: 'image create',
+                title: 'create embeddings',
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
