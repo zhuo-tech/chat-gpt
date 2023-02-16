@@ -9,11 +9,13 @@ import { ref } from "vue";
 
 defineOptions({ name: "Home" });
 
+//问题
 const problem = ref();
 
+//回答
 const answer = ref();
 
-const linumber = ref(true);
+const list: any = ref([]);
 
 // const router = useRouter();
 
@@ -22,7 +24,7 @@ const linumber = ref(true);
 //   router.push(VITE_ROUTE_HOME_PATH);
 // }
 
-OpenAIApi.modelsList();
+// OpenAIApi.modelsList();
 
 //获取回答
 async function getdata() {
@@ -37,42 +39,30 @@ async function getdata() {
 
 //创建对话框
 function displayText() {
-  if (problem.value !== undefined) {
-    linumber.value = false;
-    const div = document.createElement("div");
-    const t = document.createTextNode(problem.value);
-    const style = document.createAttribute("id");
-    style.value = "dialogueDIV";
-    div.setAttributeNode(style);
-    document.body.appendChild(div);
-    div.appendChild(t);
-    document?.getElementById("myList")?.appendChild(div);
-
-    problem.value = "";
-    getdata();
-  }
+  const data = {
+    avatar: "/public/log.png",
+    text: problem.value,
+    type: 0,
+  };
+  list.value.push(data);
+  getdata();
+  problem.value = "";
 }
+
 
 //创建回复内容
 function answerdata() {
-  const div = document.createElement("div");
-  const t = document.createTextNode(answer.value);
-  const style = document.createAttribute("id");
-  style.value = "answerDIV";
-  div.setAttributeNode(style);
-  document.body.appendChild(div);
-  div.appendChild(t);
-  document?.getElementById("myList")?.appendChild(div);
-
-
+  const data = {
+    avatar: "/public/log.png",
+    text: answer.value,
+    type: 1,
+  };
+  list.value.push(data);
 }
 
 //清空内容
 function emptyBut() {
-  var box = document.getElementById("myList");
-  box?.parentNode?.removeChild(box);
-  linumber.value = true;
-  location.reload();
+  list.value = [];
 }
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -82,11 +72,17 @@ function emptyBut() {
     <UserAvatar />
 
     <div class="begintitle">
-      <h1 v-show="linumber">ChatGPT</h1>
+      <h1 v-show="!list.length">ChatGPT</h1>
     </div>
-    <div id="myList"></div>
 
-    <div v-show="linumber" class="exhibition">
+    <div id="myList">
+      <div :class="item.type === 0 ? 'problemList' : 'answerList'" v-for="item in list">
+        <img class="listImg" :src="item.avatar" alt="" />
+        <div class="listText">{{ item.text }}</div>
+      </div>
+    </div>
+
+    <div v-show="!list.length" class="exhibition">
       <div class="witem" data-v-8a83588a="">
         <svg
           class="w-6 h-6 m-auto"
@@ -170,7 +166,7 @@ function emptyBut() {
     </div>
     <div class="steppingstone"></div>
 
-    <n-button @click="emptyBut" v-show="!linumber" class="defbut">
+    <n-button @click="emptyBut" v-show="list.length" class="defbut">
       <svg
         class="w-5 h-5"
         xmlns="http://www.w3.org/2000/svg"
@@ -195,9 +191,11 @@ function emptyBut() {
             data-id="root"
             rows="1"
             v-model="problem"
+            id="message"
             class="text m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
           ></textarea
           ><button
+            id="submit-btn"
             @click="displayText"
             class="absolute p-1 rounded-md text-gray-500 bottom-1.5 right-1 md:bottom-16 md:right-2 hover:bg-gray-100 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
           >
@@ -223,7 +221,7 @@ function emptyBut() {
   </div>
 </template>
 
-<style>
+<style scoped>
 .page {
   position: relative;
   background-color: #f7f7f8;
@@ -253,38 +251,38 @@ function emptyBut() {
 #myList {
   width: 100%;
   margin: auto;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y:auto
 }
+
+.problemList {
+  display: flex;
+  padding: 0px 200px;
+  background-color: #f7f7f8;
+}
+
+.answerList {
+  display: flex;
+  padding: 0px 200px;
+  background-color: #fff;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.listImg {
+  margin-top: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.listText {
+  line-height: 50px;
+  margin-left: 20px;
+}
+
 .steppingstone {
   width: 100%;
   height: 160px;
-}
-#dialogueDIV {
-  width: 100%;
-  background-color: #fff;
-  line-height: 50px;
-  text-indent: 200px;
-  display: flex;
-}
-.gptlogo {
-  width: 20px;
-  height: 20px;
-}
-
-
-
-#answerDIV {
-  width: 100%;
-  background-color: #f7f7f8;
-  line-height: 50px;
-  text-indent: 200px;
-  border-top: 1px solid #dededf;
-  border-bottom: 1px solid #dededf;
-}
-
-.dialogueDIV img {
-  width: 100px;
-  height: 200px;
 }
 
 .begintitle {
@@ -303,10 +301,6 @@ function emptyBut() {
   margin: auto;
   display: flex;
   justify-content: space-around;
-}
-#display {
-  width: 80%;
-  margin: auto;
 }
 
 .witem p {

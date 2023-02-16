@@ -342,6 +342,7 @@ declare namespace OpenAI {
     }
 
     interface CompletionResponse {
+data: any
         id: string
         object: 'string' | 'text_completion'
         created: number

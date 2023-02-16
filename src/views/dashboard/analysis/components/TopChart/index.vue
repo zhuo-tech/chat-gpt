@@ -1,6 +1,6 @@
 <template>
-    <n-grid :item-responsive="true" :x-gap="16" :y-gap="16">
-        <n-grid-item span="0:24 640:24 1024:16">
+    <n-grid :item-responsive="true" :x-gap="24" :y-gap="24" >
+        <n-grid-item span="0:24 640:24 1024:24" class="w-full">
             <n-card :bordered="false" class="rounded-16px shadow-sm">
                 <div class="flex w-full h-360px">
                     <div class="w-200px h-full py-12px">
@@ -19,17 +19,13 @@
                         </h3>
                         <p class="text-[#aaa]">可用额度</p>
                     </div>
-                    <div class="flex-1-hidden h-full">
+                    <div class="flex-1-hidden h-full ">
                         <div ref="lineRef" class="wh-full"></div>
                     </div>
                 </div>
             </n-card>
         </n-grid-item>
-        <n-grid-item span="0:24 640:24 1024:8">
-            <n-card :bordered="false" class="rounded-16px shadow-sm">
-                <div ref="pieRef" class="w-full h-360px"></div>
-            </n-card>
-        </n-grid-item>
+
     </n-grid>
 </template>
 
@@ -39,6 +35,13 @@ import { BizLogApi } from '@/service'
 import { StandardErrorProcessor } from '@/service/request'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+
+
+const timeList:any  = ref([])
+
+const errorList:any = ref([])
+
+const successList:any = ref([])
 
 defineOptions({ name: 'DashboardAnalysisTopCard' })
 
@@ -65,7 +68,7 @@ const lineOptions = ref<ECOption>({
         {
             type: 'category',
             boundaryGap: false,
-            data: [ '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00' ],
+            data:timeList,
         },
     ],
     yAxis: [
@@ -96,7 +99,7 @@ const lineOptions = ref<ECOption>({
             emphasis: {
                 focus: 'series',
             },
-            data: [ 4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311 ],
+            data: errorList,
         },
         {
             color: '#8e9dff',
@@ -120,59 +123,14 @@ const lineOptions = ref<ECOption>({
             emphasis: {
                 focus: 'series',
             },
-            data: [ 2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678 ],
+            data: successList,
         },
     ],
 }) as Ref<ECOption>
 const lineLoading = ref(false)
 const { domRef: lineRef } = useEcharts(lineOptions)
 
-const pieOptions = ref<ECOption>({
-    tooltip: {
-        trigger: 'item',
-    },
-    legend: {
-        bottom: '1%',
-        left: 'center',
-        itemStyle: {
-            borderWidth: 0,
-        },
-    },
-    series: [
-        {
-            color: [ '#5da8ff', '#8e9dff', '#fedc69', '#26deca' ],
-            name: '时间安排',
-            type: 'pie',
-            radius: [ '45%', '75%' ],
-            avoidLabelOverlap: false,
-            itemStyle: {
-                borderRadius: 10,
-                borderColor: '#fff',
-                borderWidth: 1,
-            },
-            label: {
-                show: false,
-                position: 'center',
-            },
-            emphasis: {
-                label: {
-                    show: true,
-                    fontSize: '12',
-                },
-            },
-            labelLine: {
-                show: false,
-            },
-            data: [
-                { value: 20, name: '学习' },
-                { value: 10, name: '娱乐' },
-                { value: 30, name: '工作' },
-                { value: 40, name: '休息' },
-            ],
-        },
-    ],
-}) as Ref<ECOption>
-const { domRef: pieRef } = useEcharts(pieOptions)
+
 
 const getLogStatistics = () => {
     lineLoading.value = true
@@ -184,7 +142,14 @@ const getLogStatistics = () => {
             // 横坐标, 两组数据源
             const { category, error, success } = getStatisticsData(minutes)
 
-            console.debug('???', category, error, success)
+
+            errorList.value = error
+            successList.value = success
+
+
+            category.forEach((item:any) => {
+                timeList.value.push(item.slice(10,15) )                  
+            }); 
         })
         .catch(StandardErrorProcessor)
         .finally(() => lineLoading.value = true)
