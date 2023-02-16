@@ -88,4 +88,14 @@ declare namespace Laf {
         success: number
         error: number
     }
+    export interface BiUserDetails {
+        _id: string
+        uid: string
+        key: 'count'
+        value: CountValue
+    }
+    interface CountValue {
+        "total": number
+        "used": number
+    }
 }

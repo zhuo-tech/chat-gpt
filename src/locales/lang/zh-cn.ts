@@ -3,7 +3,7 @@ import type { LocaleMessages } from 'vue-i18n'
 const locale: LocaleMessages<I18nType.Schema> = {
     message: {
         system: {
-            title: 'openai-接口平台',
+            title: 'OpenAI 接口服务平台',
         },
         routes: {
             dashboard: {

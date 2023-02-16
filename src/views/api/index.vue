@@ -48,8 +48,21 @@ const response = ref(null)
 const errMsg = ref('')
 
 const onSendRequest = (value: AxiosRequestConfig) => {
+    const data = value.data
+    try {
+        data.body = typeof data.body === 'string'
+            ? JSON.parse(data.body)
+            : data.body
+    } catch (e) {
+        console.debug('请求体解析出错: ', e)
+        if (e instanceof Error) {
+            window.$message?.warning('请求体格式错误 ' + e.message)
+        }
+        return
+    }
+
     loading.value = true
-    openAIProxy(value.data)
+    openAIProxy(data)
         .then(res => {
             response.value = res as any
             errMsg.value = ''

@@ -15,7 +15,7 @@ export default <Array<RouteRecordRaw>>[
                 path: '/dashboard/analysis',
                 component: () => import('@/views/dashboard/analysis/index.vue'),
                 meta: {
-                    title: '首页',
+                    title: '数据一览',
                     requiresAuth: true,
                     icon: 'icon-park-outline:analysis',
                 },
@@ -37,5 +37,5 @@ export default <Array<RouteRecordRaw>>[
             order: 1,
         },
     },
-    ApiDebugRouter,
+    ...ApiDebugRouter,
 ]

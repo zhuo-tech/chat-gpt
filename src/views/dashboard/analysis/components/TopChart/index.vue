@@ -1,13 +1,14 @@
 <template>
-    <n-grid :item-responsive="true" :x-gap="24" :y-gap="24" >
-        <n-grid-item span="0:24 640:24 1024:24" class="w-full">
+
+    <n-grid :item-responsive="true" :x-gap="24" :y-gap="24">
+        <n-grid-item span="0:24 640:24 1024:24">
             <n-card :bordered="false" class="rounded-16px shadow-sm">
                 <div class="flex w-full h-360px">
                     <div class="w-200px h-full py-12px">
                         <h3 class="text-16px font-bold">数据概览</h3>
                         <p class="text-[#aaa]">当天接口调用情况</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="100" :start-value="0" suffix="次" />
+                            <count-to :end-value="biUserDetails?.value.total" :start-value="0" suffix="次" />
                         </h3>
                         <p class="text-[#aaa]">平台赠送额度</p>
                         <h3 class="pt-36px text-24px font-bold">
@@ -15,7 +16,7 @@
                         </h3>
                         <p class="text-[#aaa]">已用次数</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="1" :start-value="0" suffix="次" />
+                            <count-to :end-value="biUserDetails?.value.used" :start-value="0" suffix="次" />
                         </h3>
                         <p class="text-[#aaa]">可用额度</p>
                     </div>
@@ -31,7 +32,7 @@
 
 <script lang="ts" setup>
 import { type ECOption, useEcharts } from '@/composables'
-import { BizLogApi } from '@/service'
+import { BizLogApi,BiUserDetailsApi } from '@/service'
 import { StandardErrorProcessor } from '@/service/request'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
@@ -132,6 +133,20 @@ const { domRef: lineRef } = useEcharts(lineOptions)
 
 
 
+/**
+ * 查询统计汇总用户调用api次数
+ */
+const biUserDetails = ref<Laf.BiUserDetails>()
+const count =()=>{
+    lineLoading.value = true
+    BiUserDetailsApi.count()
+        .then(res => {
+            biUserDetails.value = res.data
+        })
+        .catch(StandardErrorProcessor)
+        .finally(() => lineLoading.value = true)
+}
+
 const getLogStatistics = () => {
     lineLoading.value = true
     BizLogApi.statistics()
@@ -156,6 +171,7 @@ const getLogStatistics = () => {
 }
 
 getLogStatistics()
+count()
 
 const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
     return {
@@ -164,6 +180,8 @@ const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
         error: Object.values(group).map(i => i.error),
     }
 }
+
+
 
 </script>
 

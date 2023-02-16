@@ -1,4 +1,5 @@
-import { 模型 } from '@/views/api/openAI'
+import { BasicLayout } from '@/layouts'
+import { Model } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -7,8 +8,9 @@ export default <RouteRecordRaw>{
     meta: {
         title: '模型',
         requiresAuth: true,
-        localIcon: 'folder',
+        localIcon: 'api',
     },
+    component: BasicLayout,
     children: [
         {
             path: '/api/model/list',
@@ -17,7 +19,7 @@ export default <RouteRecordRaw>{
                 title: '列出模型',
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 模型.列出模型 }),
+            props: () => ({ openAIApi: Model.列出模型 }),
         },
         {
             path: '/api/model/query',
@@ -26,7 +28,7 @@ export default <RouteRecordRaw>{
                 title: '检索模型',
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 模型.检索模型 }),
+            props: () => ({ openAIApi: Model.检索模型 }),
         },
     ],
 }

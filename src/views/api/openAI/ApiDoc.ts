@@ -18,7 +18,7 @@ export const 提出请求 = {}
 /**
  * @see https://platform.openai.com/docs/api-reference/models
  */
-export const 模型 = {
+export const Model = {
 
     '列出模型': {
         url: '/v1/models',
@@ -76,7 +76,7 @@ export const 模型 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/completions
  */
-export const 完成 = {
+export const Finish = {
 
     '创建完成': {
         url: '/v1/completions',
@@ -90,7 +90,7 @@ export const 完成 = {
   "n": 1,
   "stream": false,
   "logprobs": null,
-  "stop": "\n"
+  "stop": "\\n"
 }`,
         title: '创建完成',
         desc: `为提供的提示和参数创建补全`,
@@ -130,7 +130,7 @@ export const 完成 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/edits
  */
-export const 编辑 = {
+export const Edit = {
 
     '创建编辑': {
         url: '/v1/edits',
@@ -173,7 +173,7 @@ export const 编辑 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/images
  */
-export const 图像 = {
+export const Image = {
 
     '创建映像试用版': {
         url: '/v1/images/generations',
@@ -264,7 +264,7 @@ export const 图像 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/embeddings
  */
-export const 嵌入 = {
+export const Embed = {
 
     '创建嵌入': {
         url: '/v1/embeddings',
@@ -309,7 +309,7 @@ export const 嵌入 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/files
  */
-export const 文件 = {
+export const File = {
 
     '列出文件': {
         url: '/v1/files',
@@ -416,7 +416,7 @@ export const 文件 = {
 /**
  * @see https://platform.openai.com/docs/api-reference/fine-tunes
  */
-export const 微调 = {
+export const FineTune = {
 
     '创建微调': {
         url: '/v1/fine-tunes',

@@ -1,4 +1,5 @@
-import { 微调 } from '@/views/api/openAI'
+import { BasicLayout } from '@/layouts'
+import { FineTune } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -8,8 +9,9 @@ export default <RouteRecordRaw>{
     meta: {
         title: 'fine-tunes',
         requiresAuth: true,
-        localIcon: 'folder',
+        localIcon: 'api',
     },
+    component: BasicLayout,
     children: [
         {
             name: 'api-fine-tunes-create',
@@ -20,7 +22,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调.创建微调 }),
+            props: () => ({ openAIApi: FineTune.创建微调 }),
         },
         {
             name: 'api-fine-tunes-list',
@@ -31,7 +33,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调.列出微调 }),
+            props: () => ({ openAIApi: FineTune.列出微调 }),
         },
         {
             name: 'api-fine-tunes-retrieval',
@@ -42,7 +44,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调.检索微调 }),
+            props: () => ({ openAIApi: FineTune.检索微调 }),
         },
         {
             name: 'api-fine-tunes-cancel',
@@ -53,7 +55,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调.取消微调 }),
+            props: () => ({ openAIApi: FineTune.取消微调 }),
         },
         {
             name: 'api-fine-tunes-event-list',
@@ -64,7 +66,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调['List fine-tune events'] }),
+            props: () => ({ openAIApi: FineTune['List fine-tune events'] }),
         },
         {
             name: 'api-fine-tunes-event-delete',
@@ -75,7 +77,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 微调['Delete fine-tune model'] }),
+            props: () => ({ openAIApi: FineTune['Delete fine-tune model'] }),
         },
     ],
 }

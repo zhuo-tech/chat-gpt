@@ -7,10 +7,6 @@
             <n-input v-model:value="model.password" placeholder="请输入密码" show-password-on="click" type="password" />
         </n-form-item>
         <n-space :size="24" :vertical="true">
-            <div class="flex-y-center justify-between">
-                <!--<n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>-->
-                <n-button :text="true" @click="toLoginModule('reset-pwd')">忘记密码？</n-button>
-            </div>
             <n-button
                 :block="true"
                 :loading="auth.loginLoading"
@@ -22,9 +18,6 @@
                 确定
             </n-button>
             <div class="flex-y-center justify-between">
-                <!--<n-button :block="true" class="flex-1" @click="toLoginModule('code-login')">-->
-                <!--    {{ EnumLoginModule['code-login'] }}-->
-                <!--</n-button>-->
                 <div class="w-12px"></div>
                 <n-button :block="true" class="flex-1" @click="toLoginModule('register')">
                     {{ EnumLoginModule.register }}
