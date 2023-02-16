@@ -1,3 +1,4 @@
+import { BasicLayout } from '@/layouts'
 import { File } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
@@ -7,8 +8,9 @@ export default <RouteRecordRaw>{
     meta: {
         title: '文件',
         requiresAuth: true,
-        localIcon: 'folder',
+        localIcon: 'api',
     },
+    component: BasicLayout,
     children: [
         {
             name: 'api-file-list',

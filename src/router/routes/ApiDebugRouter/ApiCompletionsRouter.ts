@@ -1,3 +1,4 @@
+import { BasicLayout } from '@/layouts'
 import { Finish } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
@@ -7,8 +8,9 @@ export default <RouteRecordRaw>{
     meta: {
         title: '完成',
         requiresAuth: true,
-        localIcon: 'folder',
+        localIcon: 'api',
     },
+    component: BasicLayout,
     children: [
         {
             name: 'api-finish-create',

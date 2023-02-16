@@ -1,3 +1,4 @@
+import { BasicLayout } from '@/layouts'
 import { FineTune } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
@@ -8,8 +9,9 @@ export default <RouteRecordRaw>{
     meta: {
         title: 'fine-tunes',
         requiresAuth: true,
-        localIcon: 'folder',
+        localIcon: 'api',
     },
+    component: BasicLayout,
     children: [
         {
             name: 'api-fine-tunes-create',

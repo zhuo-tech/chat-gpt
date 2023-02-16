@@ -37,5 +37,5 @@ export default <Array<RouteRecordRaw>>[
             order: 1,
         },
     },
-    ApiDebugRouter,
+    ...ApiDebugRouter,
 ]
