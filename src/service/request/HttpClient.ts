@@ -136,13 +136,30 @@ total: any
     msg: string
 }
 
+/**
+ * 服务器通用响应结构
+ */
+export class GenericResponseError extends Error {
+    public readonly res: HttpResponse
+
+    public constructor(message: string, res: HttpResponse) {
+        super(message)
+        this.res = res
+    }
+}
+
+/**
+ * 全局响应拦截仅判断 解析可能的错误, 转换为 reject error 返回, 并不额外处理
+ * 具体的处理 见 {@link StandardErrorProcessor}
+ * @param data 接口响应数据 {@link AxiosRequestConfig.data}
+ */
 function HttpResponseAssertion(data: any): Promise<any> {
     
     if (typeof data.code === 'number') {
         if (data.code === 0) {
             return Promise.resolve(data)
         } else {
-            return Promise.reject(data)
+            return Promise.reject(new GenericResponseError('通用响应结构错误', data))
         }
     }
     return Promise.resolve(data)
@@ -150,12 +167,18 @@ function HttpResponseAssertion(data: any): Promise<any> {
 
 /**
  * 通用错误处理
+ * @param error 捕获错误
+ * @param showMessage 如果错误类型是 {@link GenericResponseError} 是否展示错误消息. 默认是;
+ * 当手动处理异常时可以指定 false, 避免重复弹窗
  */
-export function StandardErrorProcessor(error: any): void {
+export function StandardErrorProcessor(error: any, showMessage: boolean = true): void {
     console.debug('[HTTP 响应错误]: ', error)
 
     if (error instanceof AxiosError) {
         window.$message?.error(error.message)
     }
-
+    if (showMessage && error instanceof GenericResponseError) {
+        console.debug(error.res)
+        window.$message?.error(error.res?.msg)
+    }
 }
