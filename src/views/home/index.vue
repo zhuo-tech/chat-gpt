@@ -41,7 +41,7 @@ async function getdata() {
 //创建对话框
 function displayText() {
   const data = {
-    avatar: "/public/avatar.png",
+    avatar: "/avatar.png",
     text: problem.value,
     type: 0,
   };
@@ -62,7 +62,7 @@ function displayText() {
 //创建回复内容
 function answerdata() {
   const data = {
-    avatar: "/public/log.png",
+    avatar: "/log.png",
     text: answer.value,
     type: 1,
   };
