@@ -261,7 +261,6 @@ function goAnalysis() {
   position: fixed;
   right: 2px;
   bottom: 152px;
-  background-color: #fff;
 }
 #submit-btn {
   position: fixed;
@@ -287,13 +286,11 @@ function goAnalysis() {
 .problemList {
   display: flex;
   padding: 0px 200px;
-  background-color: #f7f7f8;
 }
 
 .answerList {
   display: flex;
   padding: 0px 200px;
-  background-color: #fff;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
 }
