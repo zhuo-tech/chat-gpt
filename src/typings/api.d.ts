@@ -98,4 +98,8 @@ declare namespace Laf {
         "total": number
         "used": number
     }
+    export interface BiTodayUse {
+        ok: boolean
+        total: number
+    }
 }

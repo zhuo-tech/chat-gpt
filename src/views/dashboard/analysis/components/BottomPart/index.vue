@@ -25,13 +25,6 @@ import { ref } from 'vue'
 
 defineOptions({ name: 'DashboardAnalysisBottomPart' })
 
-interface TableData {
-    key: number;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-}
 
 const loading = ref(false)
 const tableData = ref<Array<Laf.BizLog>>([])

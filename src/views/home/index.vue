@@ -4,8 +4,9 @@
 // import { getToken } from "@/store/modules/auth/helpers";
 // import { useRouter } from "vue-router";
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
-import { OpenAIApi, OpenAIFineTunesApi, OpenAIFileApi } from "@/service";
+import { OpenAIApi } from "@/service";
 import { ref } from "vue";
+import { router } from "~/src/router"
 
 defineOptions({ name: "Home" });
 
@@ -20,18 +21,17 @@ const list: any = ref([]);
 // const router = useRouter();
 
 // 已登录直接跳转到管理首页
-// if (getToken()) {
-//   router.push(VITE_ROUTE_HOME_PATH);
-// }
 
-// OpenAIApi.modelsList();
+
+OpenAIApi.modelsList();
 
 //获取回答
 async function getdata() {
   const r = await OpenAIApi.completions({
-    model: "babbage",
+    model: "text-davinci-003",
     prompt: problem.value,
     user: "",
+    max_tokens:4000
   });
   answer.value = r.data.choices[0].text;
   answerdata();
@@ -40,7 +40,7 @@ async function getdata() {
 //创建对话框
 function displayText() {
   const data = {
-    avatar: "/public/log.png",
+    avatar: "/public/avatar.png",
     text: problem.value,
     type: 0,
   };
@@ -64,12 +64,23 @@ function answerdata() {
 function emptyBut() {
   list.value = [];
 }
+
+
+function goAnalysis(){
+    router.push('/dashboard/analysis')
+ }
+
+
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 <template>
   <div class="page">
     <UserAvatar />
+    
+    <n-button @click="goAnalysis" tertiary  class="buttom">
+      体验
+    </n-button>
 
     <div class="begintitle">
       <h1 v-show="!list.length">ChatGPT</h1>
@@ -325,5 +336,11 @@ textarea {
   resize: none;
   cursor: pointer;
   outline: none;
+}
+.buttom{
+  position: fixed;
+  top: 0;
+  right: 150px;
+  color: rgb(27, 156, 113);
 }
 </style>
