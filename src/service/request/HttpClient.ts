@@ -146,6 +146,11 @@ export class GenericResponseError extends Error {
     }
 }
 
+/**
+ * 全局响应拦截仅判断 解析可能的错误, 转换为 reject error 返回, 并不额外处理
+ * 具体的处理 见 {@link StandardErrorProcessor}
+ * @param data 接口响应数据 {@link AxiosRequestConfig.data}
+ */
 function HttpResponseAssertion(data: any): Promise<any> {
     if (typeof data.code === 'number') {
         if (data.code === 0) {
@@ -170,6 +175,7 @@ export function StandardErrorProcessor(error: any, showMessage: boolean = true):
         window.$message?.error(error.message)
     }
     if (showMessage && error instanceof GenericResponseError) {
+        console.debug(error.res)
         window.$message?.error(error.res?.msg)
     }
 }
