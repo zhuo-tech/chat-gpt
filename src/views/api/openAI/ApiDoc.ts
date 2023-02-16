@@ -90,7 +90,7 @@ export const Finish = {
   "n": 1,
   "stream": false,
   "logprobs": null,
-  "stop": "\n"
+  "stop": "\\n"
 }`,
         title: '创建完成',
         desc: `为提供的提示和参数创建补全`,
