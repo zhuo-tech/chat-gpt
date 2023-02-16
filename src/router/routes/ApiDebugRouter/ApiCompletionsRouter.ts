@@ -1,4 +1,4 @@
-import { 完成 } from '@/views/api/openAI'
+import { Finish } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -19,7 +19,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 完成.创建完成 }),
+            props: () => ({ openAIApi: Finish.创建完成 }),
         },
     ],
 }

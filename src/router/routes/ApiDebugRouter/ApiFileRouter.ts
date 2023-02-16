@@ -1,4 +1,4 @@
-import { 文件 } from '@/views/api/openAI'
+import { File } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -19,7 +19,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 文件.列出文件 }),
+            props: () => ({ openAIApi: File.列出文件 }),
         },
         {
             name: 'api-file-upload',
@@ -30,7 +30,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 文件.上传文件 }),
+            props: () => ({ openAIApi: File.上传文件 }),
         },
         {
             name: 'api-file-delete',
@@ -41,7 +41,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 文件.删除文件 }),
+            props: () => ({ openAIApi: File.删除文件 }),
         },
         {
             name: 'api-file-retrieval',
@@ -52,7 +52,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 文件.检索文件 }),
+            props: () => ({ openAIApi: File.检索文件 }),
         },
         {
             name: 'api-file-retrieval-content',
@@ -63,7 +63,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 文件.检索文件内容 }),
+            props: () => ({ openAIApi: File.检索文件内容 }),
         },
     ],
 }

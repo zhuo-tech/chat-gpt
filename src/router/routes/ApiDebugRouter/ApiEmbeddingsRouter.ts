@@ -1,4 +1,4 @@
-import { 嵌入 } from '@/views/api/openAI'
+import { Embed } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -19,7 +19,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 嵌入.创建嵌入 }),
+            props: () => ({ openAIApi: Embed.创建嵌入 }),
         },
     ],
 }

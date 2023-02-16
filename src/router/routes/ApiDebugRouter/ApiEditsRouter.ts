@@ -1,4 +1,4 @@
-import { 编辑 } from '@/views/api/openAI'
+import { Edit } from '@/views/api/openAI'
 import { RouteRecordRaw } from 'vue-router'
 
 export default <RouteRecordRaw>{
@@ -19,7 +19,7 @@ export default <RouteRecordRaw>{
                 requiresAuth: true,
                 localIcon: 'brackets-outline',
             },
-            props: () => ({ openAIApi: 编辑.创建编辑 }),
+            props: () => ({ openAIApi: Edit.创建编辑 }),
         },
     ],
 }
