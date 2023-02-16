@@ -15,10 +15,10 @@ export class BiUserDetailsApi {
         return Get<Laf.BiUserDetails>('/bi-user-quota')
     }
 
-      /**
+    /**
      * 统计使用次数
      */
-       public static todayuse() {
+    public static todayuse() {
         return Get<Laf.BiTodayUse>('/bi-today-use')
     }
 
