@@ -248,7 +248,6 @@ function goAnalysis() {
 <style scoped>
 .page {
   position: relative;
-  background-color: #f7f7f8;
   height: 100vh;
 }
 .inputbox {
@@ -338,7 +337,6 @@ function goAnalysis() {
   padding: 10px;
   margin-top: 15px;
   font-size: 16px;
-  background-color: #ffffff;
   border-radius: 5px;
   text-align: center;
 }
