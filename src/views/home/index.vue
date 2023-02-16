@@ -6,7 +6,9 @@
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
 import { OpenAIApi } from "@/service";
 import { ref } from "vue";
-import { router } from "~/src/router"
+import { router } from "@/router";
+import { StandardErrorProcessor } from "@/service/request";
+import { localStg } from "@/utils";
 
 defineOptions({ name: "Home" });
 
@@ -18,12 +20,11 @@ const answer = ref();
 
 const list: any = ref([]);
 
-// const router = useRouter();
+const loading = ref(false);
 
-// 已登录直接跳转到管理首页
+const isLogin = Boolean(localStg.get("token"));
 
-
-OpenAIApi.modelsList();
+const error = ref(false)
 
 //获取回答
 async function getdata() {
@@ -31,7 +32,7 @@ async function getdata() {
     model: "text-davinci-003",
     prompt: problem.value,
     user: "",
-    max_tokens:4000
+    max_tokens: 4000,
   });
   answer.value = r.data.choices[0].text;
   answerdata();
@@ -44,11 +45,19 @@ function displayText() {
     text: problem.value,
     type: 0,
   };
-  list.value.push(data);
-  getdata();
-  problem.value = "";
-}
 
+  if (isLogin) {
+    list.value.push(data);
+    loading.value = true;
+    getdata()
+      .catch(StandardErrorProcessor)
+      .finally(() => (loading.value = false));
+    problem.value = "";
+  }else{
+    problem.value = "";
+    return error.value = true
+  }
+}
 
 //创建回复内容
 function answerdata() {
@@ -65,22 +74,21 @@ function emptyBut() {
   list.value = [];
 }
 
-
-function goAnalysis(){
-    router.push('/dashboard/analysis')
- }
-
-
+function goAnalysis() {
+  router.push("/dashboard/analysis");
+}
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 <template>
   <div class="page">
     <UserAvatar />
-    
-    <n-button @click="goAnalysis" tertiary  class="buttom">
-      体验
-    </n-button>
+
+    <n-alert v-show="error"  type="error" >
+      请点击体验登录
+    </n-alert>
+
+    <n-button @click="goAnalysis" tertiary class="buttom"> 体验 </n-button>
 
     <div class="begintitle">
       <h1 v-show="!list.length">ChatGPT</h1>
@@ -196,36 +204,41 @@ function goAnalysis(){
         <div
           class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]"
         >
-          <textarea
-            @keyup.enter="displayText"
-            tabindex="0"
-            data-id="root"
-            rows="1"
-            v-model="problem"
-            id="message"
-            class="text m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
-          ></textarea
-          ><button
-            id="submit-btn"
-            @click="displayText"
-            class="absolute p-1 rounded-md text-gray-500 bottom-1.5 right-1 md:bottom-16 md:right-2 hover:bg-gray-100 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
-          >
-            <svg
-              stroke="currentColor"
-              fill="none"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-4 w-4 mr-1"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
+          <n-spin :show="loading">
+            <textarea
+              @keyup.enter="displayText"
+              tabindex="0"
+              data-id="root"
+              rows="1"
+              v-model="problem"
+              id="message"
+              class="text m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
+            ></textarea>
+          </n-spin>
+
+          <n-spin :show="loading">
+            <button
+              id="submit-btn"
+              @click="displayText"
+              class="absolute p-1 rounded-md text-gray-500 bottom-1.5 right-5 md:bottom-0 md:right-2 hover:bg-gray-100 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
             >
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
+              <svg
+                stroke="currentColor"
+                fill="none"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4 mr-1"
+                height="1.5em"
+                width="1.5em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </n-spin>
         </div>
       </div>
     </div>
@@ -251,6 +264,12 @@ function goAnalysis(){
   bottom: 152px;
   background-color: #fff;
 }
+#submit-btn {
+  position: fixed;
+  right: 15px;
+  bottom: 56px;
+  background-color: #fff;
+}
 .text {
   position: absolute;
   top: 50px;
@@ -263,7 +282,7 @@ function goAnalysis(){
   width: 100%;
   margin: auto;
   overflow-x: hidden;
-  overflow-y:auto
+  overflow-y: auto;
 }
 
 .problemList {
@@ -336,8 +355,9 @@ textarea {
   resize: none;
   cursor: pointer;
   outline: none;
+  overflow-y: hidden;
 }
-.buttom{
+.buttom {
   position: fixed;
   top: 0;
   right: 150px;
