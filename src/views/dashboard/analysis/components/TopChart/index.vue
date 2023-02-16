@@ -1,13 +1,13 @@
 <template>
-    <n-grid :item-responsive="true" :x-gap="16" :y-gap="16">
-        <n-grid-item span="0:24 640:24 1024:16">
+    <n-grid :item-responsive="true" :x-gap="24" :y-gap="24">
+        <n-grid-item span="0:24 640:24 1024:24">
             <n-card :bordered="false" class="rounded-16px shadow-sm">
                 <div class="flex w-full h-360px">
                     <div class="w-200px h-full py-12px">
                         <h3 class="text-16px font-bold">数据概览</h3>
                         <p class="text-[#aaa]">当天接口调用情况</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="100" :start-value="0" suffix="次" />
+                            <count-to :end-value="biUserDetails?.value.total" :start-value="0" suffix="次" />
                         </h3>
                         <p class="text-[#aaa]">平台赠送额度</p>
                         <h3 class="pt-36px text-24px font-bold">
@@ -15,7 +15,7 @@
                         </h3>
                         <p class="text-[#aaa]">已用次数</p>
                         <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="1" :start-value="0" suffix="次" />
+                            <count-to :end-value="biUserDetails?.value.used" :start-value="0" suffix="次" />
                         </h3>
                         <p class="text-[#aaa]">可用额度</p>
                     </div>
@@ -25,21 +25,15 @@
                 </div>
             </n-card>
         </n-grid-item>
-        <n-grid-item span="0:24 640:24 1024:8">
-            <n-card :bordered="false" class="rounded-16px shadow-sm">
-                <div ref="pieRef" class="w-full h-360px"></div>
-            </n-card>
-        </n-grid-item>
     </n-grid>
 </template>
 
 <script lang="ts" setup>
 import { type ECOption, useEcharts } from '@/composables'
-import { BizLogApi } from '@/service'
+import { BizLogApi,BiUserDetailsApi } from '@/service'
 import { StandardErrorProcessor } from '@/service/request'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-
 defineOptions({ name: 'DashboardAnalysisTopCard' })
 
 const lineOptions = ref<ECOption>({
@@ -138,41 +132,22 @@ const pieOptions = ref<ECOption>({
             borderWidth: 0,
         },
     },
-    series: [
-        {
-            color: [ '#5da8ff', '#8e9dff', '#fedc69', '#26deca' ],
-            name: '时间安排',
-            type: 'pie',
-            radius: [ '45%', '75%' ],
-            avoidLabelOverlap: false,
-            itemStyle: {
-                borderRadius: 10,
-                borderColor: '#fff',
-                borderWidth: 1,
-            },
-            label: {
-                show: false,
-                position: 'center',
-            },
-            emphasis: {
-                label: {
-                    show: true,
-                    fontSize: '12',
-                },
-            },
-            labelLine: {
-                show: false,
-            },
-            data: [
-                { value: 20, name: '学习' },
-                { value: 10, name: '娱乐' },
-                { value: 30, name: '工作' },
-                { value: 40, name: '休息' },
-            ],
-        },
-    ],
 }) as Ref<ECOption>
 const { domRef: pieRef } = useEcharts(pieOptions)
+
+/**
+ * 查询统计汇总用户调用api次数
+ */
+const biUserDetails = ref<Laf.BiUserDetails>()
+const count =()=>{
+    lineLoading.value = true
+    BiUserDetailsApi.count()
+        .then(res => {
+            biUserDetails.value = res.data
+        })
+        .catch(StandardErrorProcessor)
+        .finally(() => lineLoading.value = true)
+}
 
 const getLogStatistics = () => {
     lineLoading.value = true
@@ -191,6 +166,7 @@ const getLogStatistics = () => {
 }
 
 getLogStatistics()
+count()
 
 const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
     return {
@@ -199,6 +175,8 @@ const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
         error: Object.values(group).map(i => i.error),
     }
 }
+
+
 
 </script>
 

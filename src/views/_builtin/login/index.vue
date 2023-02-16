@@ -8,7 +8,6 @@
         <n-card :bordered="false" class="z-4 !w-auto rounded-20px shadow-sm" size="large">
             <div class="w-300px sm:w-360px">
                 <header class="flex-y-center justify-between">
-                    <system-logo class="text-64px text-primary" />
                     <n-gradient-text :size="28" type="primary">{{ title }}</n-gradient-text>
                 </header>
                 <main class="pt-24px">
