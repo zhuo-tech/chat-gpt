@@ -6,7 +6,6 @@
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
 import { OpenAIApi } from "@/service";
 import { ref } from "vue";
-import { router } from "@/router";
 import { StandardErrorProcessor } from "@/service/request";
 import { localStg } from "@/utils";
 
@@ -74,9 +73,7 @@ function emptyBut() {
   list.value = [];
 }
 
-function goAnalysis() {
-  router.push("/dashboard/analysis");
-}
+
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -88,7 +85,7 @@ function goAnalysis() {
       请点击体验登录
     </n-alert>
 
-    <n-button @click="goAnalysis" tertiary class="buttom"> 体验 </n-button>
+
 
     <div class="begintitle">
       <h1 v-show="!list.length">ChatGPT</h1>
@@ -352,10 +349,5 @@ textarea {
   outline: none;
   overflow-y: hidden;
 }
-.buttom {
-  position: fixed;
-  top: 0;
-  right: 150px;
-  color: rgb(27, 156, 113);
-}
+
 </style>

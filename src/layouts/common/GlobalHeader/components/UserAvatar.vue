@@ -1,6 +1,7 @@
 <template>
     <n-dropdown :options="isLogin ? options:options1 " @select="handle" class="n-dropdown"  placement="top-end">
         <hover-container :inverted="theme.header.inverted" class="hover-con" style="px-12px display: flex; justify-content: end;">
+          <n-button @click="goAnalysis" tertiary class="buttom"> 体验 </n-button>
             <n-avatar
                 :size="32"
                 :src="auth.userInfo.avatar"
@@ -9,7 +10,7 @@
                     <icon-local-avatar class="text-32px" />
                 </template>
             </n-avatar>
-            <span class="pl-8px text-16px font-medium">{{ auth.userInfo.username }}</span>
+            <span style="padding-right: 20px;" class="pl-8px text-16px font-medium">{{ auth.userInfo.username }}</span>
         </hover-container>
     </n-dropdown>
 </template>
@@ -21,10 +22,15 @@ import type { DropdownOption } from 'naive-ui'
 import {localStg } from '@/utils'
 
 
+
 import { useRouter } from 'vue-router'
  
  const router  = useRouter()
 
+
+ function goAnalysis() {
+  router.push("/dashboard/analysis");
+}
 
 
 defineOptions({ name: "UserAvatar" });
@@ -84,4 +90,10 @@ function handleDropdown(optionKey: string) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.buttom {
+  color: rgb(27, 156, 113);
+  margin-right: 10px;
+}
+</style>
