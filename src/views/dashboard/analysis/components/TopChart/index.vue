@@ -34,9 +34,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import type { Ref } from 'vue'
 import { type ECOption, useEcharts } from '@/composables'
+import { BizLogApi } from '@/service'
+import { StandardErrorProcessor } from '@/service/request'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 
 defineOptions({ name: 'DashboardAnalysisTopCard' })
 
@@ -51,7 +53,7 @@ const lineOptions = ref<ECOption>({
         },
     },
     legend: {
-        data: [ '调用量'],
+        data: [ '调用错误计数', '正常调用计数' ],
     },
     grid: {
         left: '3%',
@@ -73,8 +75,8 @@ const lineOptions = ref<ECOption>({
     ],
     series: [
         {
-            color: '#8e9dff',
-            name: '调用量',
+            color: '#ff0000',
+            name: '调用错误计数',
             type: 'line',
             smooth: true,
             stack: 'Total',
@@ -86,14 +88,8 @@ const lineOptions = ref<ECOption>({
                     x2: 0,
                     y2: 1,
                     colorStops: [
-                        {
-                            offset: 0.25,
-                            color: '#8e9dff',
-                        },
-                        {
-                            offset: 1,
-                            color: '#fff',
-                        },
+                        { offset: 0.25, color: '#ff0000' },
+                        { offset: 1, color: '#fff' },
                     ],
                 },
             },
@@ -102,8 +98,33 @@ const lineOptions = ref<ECOption>({
             },
             data: [ 4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311 ],
         },
+        {
+            color: '#8e9dff',
+            name: '正常调用计数',
+            type: 'line',
+            smooth: true,
+            stack: 'Total',
+            areaStyle: {
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [
+                        { offset: 0.25, color: '#8e9dff' },
+                        { offset: 1, color: '#fff' },
+                    ],
+                },
+            },
+            emphasis: {
+                focus: 'series',
+            },
+            data: [ 2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678 ],
+        },
     ],
 }) as Ref<ECOption>
+const lineLoading = ref(false)
 const { domRef: lineRef } = useEcharts(lineOptions)
 
 const pieOptions = ref<ECOption>({
@@ -152,6 +173,33 @@ const pieOptions = ref<ECOption>({
     ],
 }) as Ref<ECOption>
 const { domRef: pieRef } = useEcharts(pieOptions)
+
+const getLogStatistics = () => {
+    lineLoading.value = true
+    BizLogApi.statistics()
+        .then(res => {
+            const { lastDay } = res.data
+            const { minutes } = lastDay
+
+            // 横坐标, 两组数据源
+            const { category, error, success } = getStatisticsData(minutes)
+
+            console.debug('???', category, error, success)
+        })
+        .catch(StandardErrorProcessor)
+        .finally(() => lineLoading.value = true)
+}
+
+getLogStatistics()
+
+const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
+    return {
+        category: Object.keys(group).map(i => new Date(parseInt(i)).toLocaleString()),
+        success: Object.values(group).map(i => i.success),
+        error: Object.values(group).map(i => i.error),
+    }
+}
+
 </script>
 
 <style scoped></style>

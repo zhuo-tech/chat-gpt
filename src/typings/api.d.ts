@@ -72,4 +72,20 @@ declare namespace Laf {
         statusText: string
         response: any
     }
+
+    export interface BizLogStatistics {
+        lastDay: {
+            hours: Record<string, StatusCount>
+            minutes: Record<string, StatusCount>
+        }
+        lastWeek?: {
+            days: Record<string, StatusCount>
+            hours: Record<string, StatusCount>
+        }
+    }
+
+    export interface StatusCount {
+        success: number
+        error: number
+    }
 }

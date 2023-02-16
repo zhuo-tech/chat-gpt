@@ -20,4 +20,11 @@ export class BizLogApi {
         return res.data.list ?? []
     }
 
+    /**
+     * 调用统计
+     */
+    public static statistics() {
+        return Get<Laf.BizLogStatistics>('/bizLogStatistics')
+    }
+
 }
