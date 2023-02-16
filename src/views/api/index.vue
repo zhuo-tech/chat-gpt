@@ -50,9 +50,11 @@ const errMsg = ref('')
 const onSendRequest = (value: AxiosRequestConfig) => {
     const data = value.data
     try {
-        data.body = typeof data.body === 'string'
-            ? JSON.parse(data.body)
-            : data.body
+        if (data.body) {
+            data.body = typeof data.body === 'string'
+                ? JSON.parse(data.body)
+                : data.body
+        }
     } catch (e) {
         console.debug('请求体解析出错: ', e)
         if (e instanceof Error) {

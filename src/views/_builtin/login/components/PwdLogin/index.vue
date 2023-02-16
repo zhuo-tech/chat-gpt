@@ -30,6 +30,7 @@
 <script lang="ts" setup>
 import { useRouterPush } from '@/composables'
 import { EnumLoginModule } from '@/enum'
+import { StandardErrorProcessor } from '@/service/request'
 import { useAuthStore } from '@/store'
 import { formRules } from '@/utils'
 import type { FormInst, FormRules } from 'naive-ui'
@@ -49,10 +50,16 @@ const rules: FormRules = {
     password: formRules.pwd,
 }
 
-async function handleSubmit() {
-    await formRef.value?.validate()
-    const { userName, password } = model
-    login(userName, password)
+function handleSubmit() {
+    const asyncAction = async () => {
+        await formRef.value?.validate()
+        const { userName, password } = model
+        await login(userName, password)
+    }
+
+    asyncAction()
+        .catch(StandardErrorProcessor)
+        .finally(() => auth.loginLoading = false)
 }
 
 </script>
