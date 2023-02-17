@@ -25,6 +25,17 @@ const isLogin = Boolean(localStg.get("token"));
 
 const error = ref(false)
 
+
+setInterval(function () {
+  const element = document.documentElement; 
+
+  // 检查是否有新内容添加
+  if (element.scrollHeight > element.scrollTop + element.clientHeight) {
+    // 将页面定位到滚动条底部
+    element.scrollTop = element.scrollHeight;
+  }
+}, 1000);
+
 //获取回答
 async function getdata() {
   const r = await OpenAIApi.completions({
