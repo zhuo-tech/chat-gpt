@@ -1,8 +1,5 @@
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 <script lang="ts" setup>
-// import { VITE_ROUTE_HOME_PATH } from "@/config";
-// import { getToken } from "@/store/modules/auth/helpers";
-// import { useRouter } from "vue-router";
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
 import { OpenAIApi } from "@/service";
 import { ref } from "vue";
