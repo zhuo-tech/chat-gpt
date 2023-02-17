@@ -26,15 +26,14 @@ const isLogin = Boolean(localStg.get("token"));
 const error = ref(false)
 
 
-setInterval(function () {
-  const element = document.documentElement; 
-
+function setInterval () {
+  const element = document.documentElement;
   // 检查是否有新内容添加
   if (element.scrollHeight > element.scrollTop + element.clientHeight) {
     // 将页面定位到滚动条底部
     element.scrollTop = element.scrollHeight;
   }
-}, 1000);
+}
 
 //获取回答
 async function getdata() {
@@ -46,16 +45,18 @@ async function getdata() {
   });
   answer.value = r.data.choices[0].text;
   answerdata();
+  setInterval()
 }
 
 //创建对话框
 function displayText() {
+  if(problem.value===undefined) return
   const data = {
     avatar: "/avatar.png",
     text: problem.value,
     type: 0,
   };
-
+  setInterval()
   if (isLogin) {
     list.value.push(data);
     loading.value = true;
@@ -83,8 +84,6 @@ function answerdata() {
 function emptyBut() {
   list.value = [];
 }
-
-
 </script>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -92,11 +91,7 @@ function emptyBut() {
   <div class="page">
     <UserAvatar />
 
-    <n-alert v-show="error"  type="error" >
-      请点击体验登录
-    </n-alert>
-
-
+    <n-alert v-show="error" type="error"> 请点击体验登录 </n-alert>
 
     <div class="begintitle">
       <h1 v-show="!list.length">ChatGPT</h1>
@@ -107,10 +102,14 @@ function emptyBut() {
         <img class="listImg" :src="item.avatar" alt="" />
         <div class="listText">{{ item.text }}</div>
       </div>
+      <div v-show="loading" class="answerList">
+        <img class="listImg" src="/log.png" alt="" />
+        <img class="addin" src="/loading.gif" alt="">
+      </div>
     </div>
 
     <div v-show="!list.length" class="exhibition">
-      <div class="witem" data-v-8a83588a="">
+      <div class="witem">
         <svg
           class="w-6 h-6 m-auto"
           fill="none"
@@ -122,25 +121,24 @@ function emptyBut() {
           viewBox="0 0 24 24"
           width="1em"
           xmlns="http://www.w3.org/2000/svg"
-          data-v-8a83588a=""
         >
-          <circle cx="12" cy="12" r="5" data-v-8a83588a=""></circle>
-          <line x1="12" x2="12" y1="1" y2="3" data-v-8a83588a=""></line>
-          <line x1="12" x2="12" y1="21" y2="23" data-v-8a83588a=""></line>
-          <line x1="4.22" x2="5.64" y1="4.22" y2="5.64" data-v-8a83588a=""></line>
-          <line x1="18.36" x2="19.78" y1="18.36" y2="19.78" data-v-8a83588a=""></line>
-          <line x1="1" x2="3" y1="12" y2="12" data-v-8a83588a=""></line>
-          <line x1="21" x2="23" y1="12" y2="12" data-v-8a83588a=""></line>
-          <line x1="4.22" x2="5.64" y1="19.78" y2="18.36" data-v-8a83588a=""></line>
-          <line x1="18.36" x2="19.78" y1="5.64" y2="4.22" data-v-8a83588a=""></line>
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" x2="12" y1="1" y2="3"></line>
+          <line x1="12" x2="12" y1="21" y2="23"></line>
+          <line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line>
+          <line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line>
+          <line x1="1" x2="3" y1="12" y2="12"></line>
+          <line x1="21" x2="23" y1="12" y2="12"></line>
+          <line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line>
+          <line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line>
         </svg>
-        <h3 class="title" data-v-8a83588a="">实例</h3>
-        <p data-v-8a83588a="">"用简单的术语解释量子计算"</p>
-        <p data-v-8a83588a="">"10岁的生日有什么创意吗？"</p>
-        <p data-v-8a83588a="">"如何在Javascript中提出HTTP请求？"</p>
+        <h3 class="title">实例</h3>
+        <p>"用简单的术语解释量子计算"</p>
+        <p>"10岁的生日有什么创意吗？"</p>
+        <p>"如何在Javascript中提出HTTP请求？"</p>
       </div>
 
-      <div class="witem" data-v-8a83588a="">
+      <div class="witem">
         <svg
           aria-hidden="true"
           class="w-6 h-6 m-auto"
@@ -149,22 +147,20 @@ function emptyBut() {
           stroke-width="1.5"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
-          data-v-8a83588a=""
         >
           <path
             d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
             stroke-linecap="round"
             stroke-linejoin="round"
-            data-v-8a83588a=""
           ></path>
         </svg>
-        <h3 class="title" data-v-8a83588a="">功能</h3>
-        <p data-v-8a83588a="">还记得用户在对话中早些时候说的话</p>
-        <p data-v-8a83588a="">允许用户提供后续更正</p>
-        <p data-v-8a83588a="">接受过拒绝不当请求的培训</p>
+        <h3 class="title">功能</h3>
+        <p>还记得用户在对话中早些时候说的话</p>
+        <p>允许用户提供后续更正</p>
+        <p>接受过拒绝不当请求的培训</p>
       </div>
 
-      <div class="witem" data-v-8a83588a="">
+      <div class="witem">
         <svg
           class="w-6 h-6 m-auto"
           fill="none"
@@ -176,19 +172,17 @@ function emptyBut() {
           viewBox="0 0 24 24"
           width="1em"
           xmlns="http://www.w3.org/2000/svg"
-          data-v-8a83588a=""
         >
           <path
             d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-            data-v-8a83588a=""
           ></path>
-          <line x1="12" x2="12" y1="9" y2="13" data-v-8a83588a=""></line>
-          <line x1="12" x2="12.01" y1="17" y2="17" data-v-8a83588a=""></line>
+          <line x1="12" x2="12" y1="9" y2="13"></line>
+          <line x1="12" x2="12.01" y1="17" y2="17"></line>
         </svg>
-        <h3 class="title" data-v-8a83588a="">限制</h3>
-        <p data-v-8a83588a="">偶尔可能会生成错误的信息</p>
-        <p data-v-8a83588a="">偶尔可能会产生有害的指令或有偏见的内容</p>
-        <p data-v-8a83588a="">对2021年后的世界和事件的了解有限</p>
+        <h3 class="title">限制</h3>
+        <p>偶尔可能会生成错误的信息</p>
+        <p>偶尔可能会产生有害的指令或有偏见的内容</p>
+        <p>对2021年后的世界和事件的了解有限</p>
       </div>
     </div>
     <div class="steppingstone"></div>
@@ -314,6 +308,13 @@ function emptyBut() {
   margin-left: 20px;
 }
 
+.addin{
+  margin: 10px 20px;
+  width: 30px;
+  height: 30px;
+  
+}
+
 .steppingstone {
   width: 100%;
   height: 160px;
@@ -360,5 +361,4 @@ textarea {
   outline: none;
   overflow-y: hidden;
 }
-
 </style>
