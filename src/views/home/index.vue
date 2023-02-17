@@ -23,10 +23,9 @@ const loading = ref(false);
 
 const isLogin = Boolean(localStg.get("token"));
 
-const error = ref(false)
+const error = ref(false);
 
-
-function setInterval () {
+function setInterval() {
   const element = document.documentElement;
   // 检查是否有新内容添加
   if (element.scrollHeight > element.scrollTop + element.clientHeight) {
@@ -45,18 +44,18 @@ async function getdata() {
   });
   answer.value = r.data.choices[0].text;
   answerdata();
-  setInterval()
+  setInterval();
 }
 
 //创建对话框
 function displayText() {
-  if(problem.value===undefined) return
+  if (problem.value === undefined) return;
   const data = {
     avatar: "/avatar.png",
     text: problem.value,
     type: 0,
   };
-  setInterval()
+  setInterval();
   if (isLogin) {
     list.value.push(data);
     loading.value = true;
@@ -64,9 +63,9 @@ function displayText() {
       .catch(StandardErrorProcessor)
       .finally(() => (loading.value = false));
     problem.value = "";
-  }else{
+  } else {
     problem.value = "";
-    return error.value = true
+    return (error.value = true);
   }
 }
 
@@ -104,7 +103,7 @@ function emptyBut() {
       </div>
       <div v-show="loading" class="answerList">
         <img class="listImg" src="/log.png" alt="" />
-        <img class="addin" src="/loading.gif" alt="">
+        <img class="addin" src="/loading.gif" alt="" />
       </div>
     </div>
 
@@ -208,7 +207,18 @@ function emptyBut() {
         >
           <n-spin :show="loading">
             <textarea
+              v-show="!loading"
               @keyup.enter="displayText"
+              tabindex="0"
+              data-id="root"
+              rows="1"
+              v-model="problem"
+              id="message"
+              class="text m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
+            ></textarea>
+            <textarea
+              v-show="loading"
+              readonly
               tabindex="0"
               data-id="root"
               rows="1"
@@ -308,11 +318,10 @@ function emptyBut() {
   margin-left: 20px;
 }
 
-.addin{
+.addin {
   margin: 10px 20px;
   width: 30px;
   height: 30px;
-  
 }
 
 .steppingstone {
