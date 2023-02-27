@@ -1,33 +1,66 @@
 <template>
+  <n-grid :item-responsive="true" :x-gap="24" :y-gap="24">
+    <n-grid-item span="0:24 640:24 1024:24">
+      <n-card :bordered="false" class="rounded-16px shadow-sm">
+        <div class="flex w-full h-360px">
+          <div class="w-200px h-full py-12px">
+            <h3 class="text-16px font-bold">数据概览</h3>
+            <p class="text-[#aaa]">当天接口调用情况</p>
+            <h3 class="pt-36px text-24px font-bold">
+              <count-to
+                :end-value="biUserDetails?.value.total"
+                :start-value="0"
+                suffix="次"
+              />
+            </h3>
 
-    <n-grid :item-responsive="true" :x-gap="24" :y-gap="24">
-        <n-grid-item span="0:24 640:24 1024:24">
-            <n-card :bordered="false" class="rounded-16px shadow-sm">
-                <div class="flex w-full h-360px">
-                    <div class="w-200px h-full py-12px">
-                        <h3 class="text-16px font-bold">数据概览</h3>
-                        <p class="text-[#aaa]">当天接口调用情况</p>
-                        <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="biUserDetails?.value.total" :start-value="0" suffix="次" />
-                        </h3>
-                        <p class="text-[#aaa]">平台赠送额度</p>
-                        <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="99" :start-value="0" suffix="次" />
-                        </h3>
-                        <p class="text-[#aaa]">已用次数</p>
-                        <h3 class="pt-36px text-24px font-bold">
-                            <count-to :end-value="biUserDetails?.value.used" :start-value="0" suffix="次" />
-                        </h3>
-                        <p class="text-[#aaa]">可用额度</p>
-                    </div>
-                    <div class="flex-1-hidden h-full ">
-                        <div ref="lineRef" class="wh-full"></div>
-                    </div>
-                </div>
-            </n-card>
-        </n-grid-item>
+            <p class="text-[#aaa]">平台赠送额度</p>
+            <h3 class="pt-36px text-24px font-bold">
+              <count-to
+                :end-value="biUserDetails?.value.used"
+                :start-value="0"
+                suffix="次"
+              />
+            </h3>
+            <p class="text-[#aaa]">已用次数</p>
 
-    </n-grid>
+            <n-popover trigger="click" >
+              <template #trigger>
+                <h3 class="pt-36px text-24px font-bold"  >
+                  <n-badge dot type="error" >
+                    <count-to  :end-value="usable" :start-value="0" suffix="次" />
+                  </n-badge>
+                </h3>
+              </template>
+              <template #header>
+                <n-image
+                  width="150"
+                  
+                  src="https://oss.lafyun.com/wofnib-image/2022-04-22-14-21-MRJH9o.png"
+                />
+                <n-text strong depth="1">
+                  <p style="text-align: center;">微信群</p>
+                </n-text>
+              </template>
+              <p style="text-align: center;">
+                <a  
+                  href="https://jq.qq.com/?_wv=1027&amp;k=DdRCCiuz"
+                  target="_blank"
+                  rel="nofollow"
+                  >QQ 群：603059673</a
+                >
+              </p>
+            </n-popover>
+
+            <p class="text-[#aaa]">可用额度</p>
+          </div>
+          <div class="flex-1-hidden h-full">
+            <div ref="lineRef" class="wh-full"></div>
+          </div>
+        </div>
+      </n-card>
+    </n-grid-item>
+  </n-grid>
 </template>
 
 <script lang="ts" setup>
@@ -43,6 +76,8 @@ const timeList:any  = ref([])
 const errorList:any = ref([])
 
 const successList:any = ref([])
+
+const  usable = ref()
 
 defineOptions({ name: 'DashboardAnalysisTopCard' })
 
@@ -132,7 +167,6 @@ const lineLoading = ref(false)
 const { domRef: lineRef } = useEcharts(lineOptions)
 
 
-
 /**
  * 查询统计汇总用户调用api次数
  */
@@ -142,6 +176,8 @@ const count =()=>{
     BiUserDetailsApi.count()
         .then(res => {
             biUserDetails.value = res.data
+            usable.value = res.data.value.total - res.data.value.used
+
         })
         .catch(StandardErrorProcessor)
         .finally(() => lineLoading.value = true)
@@ -163,8 +199,8 @@ const getLogStatistics = () => {
 
 
             category.forEach((item:any) => {
-                timeList.value.push(item.slice(10,15) )                  
-            }); 
+                timeList.value.push(item.slice(10,15) )
+            });
         })
         .catch(StandardErrorProcessor)
         .finally(() => lineLoading.value = true)
@@ -180,9 +216,6 @@ const getStatisticsData = (group: Record<string, Laf.StatusCount>) => {
         error: Object.values(group).map(i => i.error),
     }
 }
-
-
-
 </script>
 
 <style scoped></style>

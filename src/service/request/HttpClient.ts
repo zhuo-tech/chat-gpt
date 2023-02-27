@@ -10,8 +10,8 @@ import { Axios, AxiosError, AxiosRequestConfig } from 'axios'
  */
 const axios = new Axios({
     baseURL: VITE_LAF_URL,
-    timeout: 1000 * 20,
-    timeoutErrorMessage: '请求等待20秒仍未有响应, 请求超时',
+    timeout: 1000 * 60,
+    timeoutErrorMessage: '请求等待60秒仍未有响应, 请求超时',
     withCredentials: false,
     maxRedirects: 3,
     transformRequest: [
@@ -129,6 +129,8 @@ export interface HttpRequest<D> extends AxiosRequestConfig<D> {}
  * 服务器通用响应结构
  */
 export interface HttpResponse<R = any> {
+total: any
+[x: string]: any
     code: 0 | number
     data: R
     msg: string
@@ -152,6 +154,7 @@ export class GenericResponseError extends Error {
  * @param data 接口响应数据 {@link AxiosRequestConfig.data}
  */
 function HttpResponseAssertion(data: any): Promise<any> {
+    
     if (typeof data.code === 'number') {
         if (data.code === 0) {
             return Promise.resolve(data)

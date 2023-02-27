@@ -17,7 +17,9 @@
         "cleanup": "soy cleanup",
         "update-pkg": "soy update-pkg",
         "tsx": "tsx",
-        "logo": "tsx ./scripts/logo.ts"
+        "logo": "tsx ./scripts/logo.ts",
+        "deploy:prod-win": "npm run build && scp -rv ./dist/* ssh zhuo:/app/chat-gpt-admin",
+        "deploy:prod": "npm run build && rsync -rvtP ./dist/* ssh zhuo:/app/chat-gpt-admin"
     },
     "dependencies": {
         "@antv/data-set": "^0.11.8",
