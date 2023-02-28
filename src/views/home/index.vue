@@ -9,7 +9,6 @@ import { useAuthStore } from "@/store";
 
 const user = useAuthStore();
 
-
 defineOptions({ name: "Home" });
 
 //问题
@@ -26,6 +25,7 @@ const isLogin = Boolean(localStg.get("token"));
 
 const error = ref(false);
 
+
 function setInterval() {
   const element = document.documentElement;
   // 检查是否有新内容添加
@@ -37,12 +37,12 @@ function setInterval() {
 
 //获取回答
 async function getdata() {
-  const {data} = await chatGptProxy({
+  const { data } = await chatGptProxy({
     text: problem.value,
-    account: "hkk", //账户别名 
-    contextId:user.userInfo._id,//用户ID
+    account: "hkk", //账户别名
+    contextId: user.userInfo._id, //用户ID
   });
-  answer.value = data.text;
+  answer.value = data.text.replace(/\n/g, "<br>");
   answerdata();
   setInterval();
 }
@@ -93,13 +93,15 @@ function emptyBut() {
     <n-alert v-show="error" type="error"> 请点击体验登录 </n-alert>
 
     <div class="begintitle">
-      <h1 v-show="!list.length">ChatGPT</h1>
+      <h1 v-show="!list.length">ChatGPT
+      </h1>
     </div>
 
     <div id="myList">
       <div :class="item.type === 0 ? 'problemList' : 'answerList'" v-for="item in list">
         <img class="listImg" :src="item.avatar" alt="" />
-        <div class="listText">{{ item.text }}</div>
+        <div v-html="item.text" class="listText">
+       </div>
       </div>
       <div v-show="loading" class="answerList">
         <img class="listImg" src="/log.png" alt="" />
