@@ -9,7 +9,7 @@ export function openAIProxy<R, RW = R>(request: HttpRequest) {
 }
 
 export function chatGptProxy(param: BodyType) {
-    return Post('/chatGptProxy', param)
+    return Post<{ text: string }>('/chatGptProxy', param)
 }
 
 interface HttpRequest {
