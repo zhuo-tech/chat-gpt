@@ -1,10 +1,14 @@
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
 <script lang="ts" setup>
 import { UserAvatar } from "@/layouts/common/GlobalHeader/components";
-import { OpenAIApi } from "@/service";
 import { ref } from "vue";
 import { StandardErrorProcessor } from "@/service/request";
 import { localStg } from "@/utils";
+import { chatGptProxy } from "@/service";
+import { useAuthStore } from "@/store";
+
+const user = useAuthStore();
+
 
 defineOptions({ name: "Home" });
 
@@ -33,13 +37,12 @@ function setInterval() {
 
 //获取回答
 async function getdata() {
-  const r = await OpenAIApi.completions({
-    model: "text-davinci-003",
-    prompt: problem.value,
-    user: "",
-    max_tokens: 4000,
+  const {data} = await chatGptProxy({
+    text: problem.value,
+    account: "hkk", //账户别名 
+    contextId:user.userInfo._id,//用户ID
   });
-  answer.value = r.data.choices[0].text;
+  answer.value = data.text;
   answerdata();
   setInterval();
 }
