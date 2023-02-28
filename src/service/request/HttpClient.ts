@@ -63,12 +63,16 @@ axios.interceptors.response.use(
  * - TR: 通用响应结构
  * @param config 请求配置信息
  */
-export function Request<
+export async function Request<
     R,
     D = Record<string, any>,
     TR = HttpResponse<R>
 >(config: HttpRequest<D>): Promise<TR> {
-    return axios.request<R, TR, D>(config)
+    const response = await axios.request<R, TR, D>(config)
+    if (response) {
+        return response
+    }
+    throw new Error('空响应')
 }
 
 export function Get<
