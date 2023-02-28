@@ -12,14 +12,14 @@ export class BiUserDetailsApi {
      * 统计
      */
     public static count() {
-        return Get<Laf.BiUserDetails>('/bi-user-quota')
+        return Get<Laf.BiUserDetails>('/biUserQuota')
     }
 
     /**
      * 统计使用次数
      */
     public static todayuse() {
-        return Get<Laf.BiTodayUse>('/bi-today-use')
+        return Get<Laf.BiTodayUse>('/biTodayUse')
     }
 
 

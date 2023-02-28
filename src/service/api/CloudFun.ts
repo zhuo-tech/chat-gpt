@@ -5,7 +5,7 @@ import type { AxiosRequestConfig, Method } from 'axios'
  * 转发 OpenAI 请求
  */
 export function openAIProxy<R, RW = R>(request: HttpRequest) {
-    return Post<R, HttpRequest, RW>('/open-ai', request)
+    return Post<R, HttpRequest, RW>('/openAiProxy', request)
 }
 
 interface HttpRequest {
