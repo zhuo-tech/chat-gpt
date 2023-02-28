@@ -129,11 +129,12 @@ export interface HttpRequest<D> extends AxiosRequestConfig<D> {}
  * 服务器通用响应结构
  */
 export interface HttpResponse<R = any> {
-total: any
-[x: string]: any
+    total: any
     code: 0 | number
     data: R
     msg: string
+
+    [x: string]: any
 }
 
 /**
@@ -154,7 +155,7 @@ export class GenericResponseError extends Error {
  * @param data 接口响应数据 {@link AxiosRequestConfig.data}
  */
 function HttpResponseAssertion(data: any): Promise<any> {
-    
+
     if (typeof data.code === 'number') {
         if (data.code === 0) {
             return Promise.resolve(data)
