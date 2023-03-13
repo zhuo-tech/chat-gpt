@@ -6,6 +6,7 @@ import { StandardErrorProcessor } from "@/service/request";
 import { localStg } from "@/utils";
 import { chatGptProxy } from "@/service";
 import { useAuthStore } from "@/store";
+import { marked } from "marked";
 
 const user = useAuthStore();
 
@@ -25,14 +26,16 @@ const isLogin = Boolean(localStg.get("token"));
 
 const error = ref(false);
 
-
 function setInterval() {
-  const element = document.documentElement;
+  setTimeout(() => {
+     const element = document.documentElement;
   // 检查是否有新内容添加
   if (element.scrollHeight > element.scrollTop + element.clientHeight) {
     // 将页面定位到滚动条底部
     element.scrollTop = element.scrollHeight;
   }
+  }, 0);
+
 }
 
 //获取回答
@@ -42,7 +45,10 @@ async function getdata() {
     account: "hkk", //账户别名
     contextId: user.userInfo._id, //用户ID
   });
-  answer.value = data.text.replace(/\n/g, "<br>");
+  answer.value = marked.parse(data.text);
+
+  console.log(data);
+
   answerdata();
   setInterval();
 }
@@ -93,15 +99,13 @@ function emptyBut() {
     <n-alert v-show="error" type="error"> 请点击体验登录 </n-alert>
 
     <div class="begintitle">
-      <h1 v-show="!list.length">ChatGPT
-      </h1>
+      <h1 v-show="!list.length">ChatGPT</h1>
     </div>
 
     <div id="myList">
       <div :class="item.type === 0 ? 'problemList' : 'answerList'" v-for="item in list">
         <img class="listImg" :src="item.avatar" alt="" />
-        <div v-html="item.text" class="listText">
-       </div>
+        <div v-highlight v-html="item.text" class="listText"></div>
       </div>
       <div v-show="loading" class="answerList">
         <img class="listImg" src="/log.png" alt="" />
@@ -299,12 +303,12 @@ function emptyBut() {
 
 .problemList {
   display: flex;
-  padding: 0px 200px;
+  padding: 0px 10%;
 }
 
 .answerList {
   display: flex;
-  padding: 0px 200px;
+  padding: 0px 10%;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
 }
